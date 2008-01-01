@@ -21,3 +21,15 @@ class Municipio(models.Model):
     
     def __unicode__(self):
         return self.nombre
+    
+
+
+class AreaSalud(models.Model):
+    nombre = models.CharField(
+        max_length=45, 
+        unique=True
+    )
+    municipio = models.ForeignKey(Municipio)
+    
+    def __unicode__(self):
+        return self.nombre
