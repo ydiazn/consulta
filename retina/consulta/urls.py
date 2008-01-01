@@ -7,5 +7,10 @@ urlpatterns = [
         r'^detalle/paciente/(?P<pk>\w+)/$',
         DetallePacienteView.as_view(),
         name='detalle_paciente'
+    ),
+    url(
+        r'^adicionar/paciente/$',
+        AdicionarPacienteView.as_view(),
+        name='adicionar_paciente'
     )
 ]
