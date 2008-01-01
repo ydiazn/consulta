@@ -44,3 +44,29 @@ class MNT(models.Model):
     
     def __unicode__(self):
         return self.nombre
+
+
+class Enfermedad(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True)
+    
+    def __unicode__(self):
+        return self.nombre
+
+
+class CriterioClasificacionEnfermedad(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True)
+    
+    def __unicode__(self):
+        return self.nombre
+
+
+class ClasificacionEnfermedad(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    enfermedad = models.ForeignKey(Enfermedad)
+    criterio = models.ForeignKey(CriterioClasificacionEnfermedad)
+    descripcion = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.nombre

@@ -6,6 +6,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from consulta.models import Paciente, Consulta
 from consulta.forms import PacienteForm, ConsultaForm
+from datetime import date
 
 # Create your views here.
 
@@ -108,6 +109,35 @@ class AdicionarConsultaView(CreateView):
         context = super(AdicionarConsultaView, self).get_context_data(**kwargs)
         context.update(
             {
+                'menu': 'consulta'
+            }
+        )
+        return context
+
+
+class ConsultaPorFechaView(ListView):
+
+    model = Consulta
+    template_name = 'consulta/consulta_por_fecha.html'
+    
+    def get(self, request, *args, **kwargs):
+        self.fecha = request.GET.get('fecha', date.today())
+        return super(ConsultaPorFechaView, self).get(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        return Consulta.objects.filter(fecha=self.fecha)
+
+    def get_context_data(self, **kwargs):
+        context = super(ConsultaPorFechaView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'campos':
+                    (
+                        'no. HC', 
+                        'nombre y apellidos',
+                        'diagnóstico',
+                        'MNT',
+                    ),
                 'menu': 'consulta'
             }
         )

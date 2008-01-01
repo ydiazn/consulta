@@ -1,7 +1,7 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
 from django.db import models
-from nucleo.models import AreaSalud, MNT
+from nucleo.models import AreaSalud, MNT, ClasificacionEnfermedad
 from datetime import date
 
 # Create your models here.
@@ -31,7 +31,7 @@ class Paciente(models.Model):
 class Consulta(models.Model):
     paciente = models.ForeignKey(Paciente)
     fecha = models.DateField()
-    diagnostico = models.TextField()
+    diagnostico = models.ManyToManyField(ClasificacionEnfermedad)
     mnt = models.ForeignKey(MNT)
 
     def __unicode__(self):
