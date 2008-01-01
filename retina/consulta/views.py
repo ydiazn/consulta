@@ -3,9 +3,9 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from consulta.models import Paciente
-from consulta.forms import AdicionarPacienteForm
+from consulta.forms import PacienteForm
 
 # Create your views here.
 
@@ -19,7 +19,15 @@ class AdicionarPacienteView(CreateView):
 
     model = Paciente
     template_name = 'consulta/paciente_adicionar.html'
-    form_class = AdicionarPacienteForm
+    form_class = PacienteForm
+    success_url = reverse_lazy('consulta:listar_paciente')
+    
+
+class EditarPacienteView(UpdateView):
+
+    model = Paciente
+    template_name = 'consulta/paciente_editar.html'
+    form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
 
 

@@ -6,7 +6,7 @@ from widgets import CalendarWidget
 
 
 # Yusdanis Feus Pérez
-class AdicionarPacienteForm(forms.ModelForm):
+class PacienteForm(forms.ModelForm):
 
     class Meta:
         model = Paciente
@@ -17,6 +17,6 @@ class AdicionarPacienteForm(forms.ModelForm):
     
     
     def __init__(self, *args, **kwargs):
-        super(AdicionarPacienteForm, self).__init__(*args, **kwargs)
+        super(PacienteForm, self).__init__(*args, **kwargs)
         for field in self.fields.itervalues():
             field.widget.attrs['class'] = 'form-control'

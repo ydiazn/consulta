@@ -17,7 +17,10 @@
 <td>{{ object.area_salud }}</td>
 <td>
     <a class="blue" href="{% url 'consulta:detalle_paciente' pk=object.pk %}" data-rel="tooltip" title="Detalles">
-       Detalles
+       D
+    </a>
+    <a class="blue" href="{% url 'consulta:editar_paciente' pk=object.pk %}" data-rel="tooltip" title="Editar">
+       E
     </a>
 </td>
 

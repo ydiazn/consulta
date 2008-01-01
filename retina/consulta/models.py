@@ -20,7 +20,7 @@ class Paciente(models.Model):
     foto = models.ImageField(upload_to='pacientes', blank=True)
     
     def __unicode__(self):
-        return self.nombres
+        return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
     
     def edad(self):
         return 3
