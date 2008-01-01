@@ -1,44 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Bootstrap Example</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% load staticfiles %}
-        <link rel="stylesheet"  type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        <style>
-            row {border-style:solid;border-color:#ccc; border-width:0.1px;}
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="page-header">
-                <h1>Detalle de paciente</h1>
-            </div>
-            <div class="panel-group">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Información básica</div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <img src="{{ object.foto.url }}" class="img-circle img-responsive" alt="Foto" >
-                            </div>
-                            <div class="col-sm-10">
-                                <h4>
-                                    <u>{{object.nombres}} {{object.primer_apellido}} {{object.segundo_apellido}}</u>
-                                    <span class="badge">{{object.edad}} años</span>
-                                </h4>
-                                <h6><strong>CI: </strong> {{object.ci}}</h6>
-                                <h6><strong>Provincia: </strong> {{object.municipio.provincia}}</h6>
-                                <h6><strong>Municipio: </strong> {{object.municipio}}</h6>
-                                <h6><strong>Dirección: </strong> {{object.direccion}}</h6>
-                            </div>
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="page-header">
+    <h1>Detalle de paciente</h1>
+</div>
+<div class="panel-group">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Información básica</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    {% load staticfiles %}
+                    <img src="{% if object.foto %} {{ object.foto.url }}{% else %} {% static 'icons/paciente.png' %} {% endif %}" style="max-width:70px;" class="img-circle img-responsive" alt="Foto"  />
+                </div>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <h4>
+                            <u>{{object.nombres}} {{ object.primer_apellido }} {{ object.segundo_apellido }}</u>
+                            <span class="badge">No. {{ object.numero_historia_clinica }}</span>
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h6><strong>Sexo: </strong> {{ object.sexo }}</h6>
+                            <h6><strong>Edad: </strong> {{ object.edad }}</h6>
+                            <h6><strong>Area de salud: </strong> {{ object.area_salud }}</h6>
+                        </div>
+                        <div class="col-sm-5">
+                            <h6><strong>No. CI: </strong> {{ object.ci }}</h6>
+                            <h6><strong>Ocupación actual: </strong> {{ object.ocupacion }}</h6>
+                            <h6><strong>Centro Trabajo: </strong> {{ object.centro_trabajo }}</h6>
                         </div>
                     </div>
+                    <h6><strong>Dirección: </strong> {{ object.direccion }}, {{ object.area_salud.municipio }}, {{ object.area_salud.municipio.provincia }}</h6>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    </div>
+</div>
+{% endblock page %}
