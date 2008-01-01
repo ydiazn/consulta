@@ -1,6 +1,7 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView
 from consulta.models import Paciente
@@ -19,6 +20,7 @@ class AdicionarPacienteView(CreateView):
     model = Paciente
     template_name = 'consulta/paciente_adicionar.html'
     form_class = AdicionarPacienteForm
+    success_url = reverse_lazy('consulta:listar_paciente')
 
 
 class ListarPacienteView(ListView):
