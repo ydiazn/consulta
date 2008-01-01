@@ -2,11 +2,29 @@
 
 {% block page %}
 
-<div class="page-header">
-    <h1>Adicionar paciente</h1>
-</div>
-
-{% include 'formulario_adicionar.html' %}
+    <div class="page-header">
+        <h1>Adicionar paciente</h1>
+    </div>
+    
+    {% include 'formulario.html' %}
 
 {% endblock page %}
+
+
+{% load staticfiles %}
+
+{% block stylesheet %}
+
+    <link rel="stylesheet" href="{% static "css/datepicker.min.css" %}" />
+
+{% endblock stylesheet %}
+
+{ % block other_scripts % }
+    
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script>
+        $('#id_fecha_nacimiento').datepicker();
+    </script>
+
+{ % endblock other_scripts % }
 

@@ -1,5 +1,7 @@
+# -*- encoding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from django.db import models
-from nucleo.models import AreaSalud
+from nucleo.models import AreaSalud, MNT
 from datetime import date
 
 # Create your models here.
@@ -24,3 +26,13 @@ class Paciente(models.Model):
     
     def edad(self):
         return 3
+
+
+class Consulta(models.Model):
+    paciente = models.ForeignKey(Paciente)
+    fecha = models.DateField()
+    diagnostico = models.TextField()
+    mnt = models.ForeignKey(MNT)
+
+    def __unicode__(self):
+        return "%No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)

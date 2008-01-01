@@ -27,6 +27,11 @@ urlpatterns = [
         r'^listar/paciente/$',
         ListarPacienteView.as_view(),
         name='listar_paciente'
-    )
+    ),
+    url(
+        r'^adicionar/consulta/$',
+        AdicionarConsultaView.as_view(),
+        name='adicionar_consulta'
+    ),
     
 ]
