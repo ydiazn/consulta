@@ -14,7 +14,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from consulta import urls as consulta_url
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-]
+    url(r'^consulta/', include(consulta_url)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
