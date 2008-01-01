@@ -1,0 +1,24 @@
+{% extends 'listar.html' %}
+
+{% block header %}
+
+<div class="page-header">
+    <h1>Listado de pacientes</h1>
+</div>
+
+{% endblock header %}
+
+{% block listado %}
+
+<td>{{ object.numero_historia_clinica }}</td>
+<td>{{ object.nombres}} {{ object.primer_apellido}} {{ object.segundo_apellido }}</td>
+<td>{{ object.edad }}</td>
+<td>{{ object.sexo }}</td>
+<td>{{ object.area_salud }}</td>
+<td>
+    <a class="blue" href="{% url 'consulta:detalle_paciente' pk=object.pk %}" data-rel="tooltip" title="Detalles">
+       Detalles
+    </a>
+</td>
+
+{% endblock listado %}

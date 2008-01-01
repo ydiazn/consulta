@@ -1,5 +1,7 @@
+# -*- encoding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView
 from consulta.models import Paciente
 from consulta.forms import AdicionarPacienteForm
@@ -17,3 +19,25 @@ class AdicionarPacienteView(CreateView):
     model = Paciente
     template_name = 'consulta/paciente_adicionar.html'
     form_class = AdicionarPacienteForm
+
+
+class ListarPacienteView(ListView):
+
+    model = Paciente
+    template_name = 'consulta/paciente_listar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListarPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'campos':
+                    (
+                        'no. HC', 
+                        'nombre y apellidos',
+                        'edad',
+                        'sexo',
+                        'área de salud'
+                    )
+            }
+        )
+        return context

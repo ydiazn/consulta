@@ -12,5 +12,10 @@ urlpatterns = [
         r'^adicionar/paciente/$',
         AdicionarPacienteView.as_view(),
         name='adicionar_paciente'
+    ),
+    url(
+        r'^listar/paciente/$',
+        ListarPacienteView.as_view(),
+        name='listar_paciente'
     )
 ]
