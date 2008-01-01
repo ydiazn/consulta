@@ -19,6 +19,11 @@ urlpatterns = [
         name='editar_paciente'
     ),
     url(
+        r'^eliminar/paciente/(?P<pk>\w+)/$',
+        EliminarPacienteView.as_view(),
+        name='eliminar_paciente'
+    ),
+    url(
         r'^listar/paciente/$',
         ListarPacienteView.as_view(),
         name='listar_paciente'

@@ -1,9 +1,9 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from consulta.models import Paciente
 from consulta.forms import PacienteForm
 
@@ -29,6 +29,21 @@ class EditarPacienteView(UpdateView):
     template_name = 'consulta/paciente_editar.html'
     form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
+
+
+class EliminarPacienteView(DeleteView):
+
+    model = Paciente
+    success_url = reverse_lazy('consulta:listar_paciente')
+
+    def get_context_data(self, **kwargs):
+        context = super(EliminarPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'url_cancelar': reverse('consulta:listar_paciente')
+            }
+        )
+        return context
 
 
 class ListarPacienteView(ListView):
