@@ -33,3 +33,14 @@ class AreaSalud(models.Model):
     
     def __unicode__(self):
         return self.nombre
+
+
+#Medicina natural tradicional
+class MNT(models.Model):
+    nombre = models.CharField(
+        max_length=100, 
+        unique=True
+    )
+    
+    def __unicode__(self):
+        return self.nombre
