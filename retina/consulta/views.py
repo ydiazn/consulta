@@ -14,6 +14,15 @@ class DetallePacienteView(DetailView):
     model = Paciente
     template_name='consulta/paciente_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(DetallePacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'paciente'
+            }
+        )
+        return context
+
 
 class AdicionarPacienteView(CreateView):
 
@@ -21,7 +30,15 @@ class AdicionarPacienteView(CreateView):
     template_name = 'consulta/paciente_adicionar.html'
     form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
-    
+
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'paciente'
+            }
+        )
+        return context
 
 class EditarPacienteView(UpdateView):
 
@@ -29,6 +46,15 @@ class EditarPacienteView(UpdateView):
     template_name = 'consulta/paciente_editar.html'
     form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'paciente'
+            }
+        )
+        return context
 
 
 class EliminarPacienteView(DeleteView):
@@ -40,7 +66,8 @@ class EliminarPacienteView(DeleteView):
         context = super(EliminarPacienteView, self).get_context_data(**kwargs)
         context.update(
             {
-                'url_cancelar': reverse('consulta:listar_paciente')
+                'url_cancelar': reverse('consulta:listar_paciente'),
+                'menu': 'paciente'
             }
         )
         return context
@@ -62,7 +89,8 @@ class ListarPacienteView(ListView):
                         'edad',
                         'sexo',
                         'área de salud'
-                    )
+                    ),
+                'menu': 'paciente'
             }
         )
         return context
