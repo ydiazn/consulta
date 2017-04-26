@@ -9,12 +9,12 @@
                 <li><a href="{% url 'consulta:adicionar_paciente' %}">Adicionar paciente</a></li>
             </ul>
         </li>
-        <li class="dropdown">
+        <li {% if menu == 'consulta' %} class='active' {% endif %} class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consulta
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="#">Listado de consultas</a></li>
-                <li><a href="#">Adicionar consulta</a></li>
+                <li><a href="{% url 'consulta:consulta_por_fecha' %}">Consulta por fecha</a></li>
+                <li><a href="{% url 'consulta:adicionar_consulta' %}">Adicionar consulta</a></li>
             </ul>
         </li>
         <li class="dropdown">

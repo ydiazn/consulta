@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block page %}
+
+<div class="page-header">
+    <h1>Adicionar Consulta</h1>
+</div>
+
+{% include 'formulario.html' %}
+
+{% endblock page %}
+
+{% block stylesheet %}
+
+    {{ form.media.css }}
+
+{% endblock stylesheet %}
+
+{% block script %}
+
+    {{ form.media.js }}
+    <script>
+        $('#id_fecha_nacimiento').datepicker();
+        $('#id_paciente').chosen();
+    </script>
+
+{% endblock script %}
