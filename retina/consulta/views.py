@@ -4,17 +4,19 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.dates import DayArchiveView
 from consulta.models import Paciente, Consulta
 from consulta.forms import PacienteForm, ConsultaForm
 from datetime import date
 
 # Create your views here.
 
+
 # Paciente
 class DetallePacienteView(DetailView):
 
     model = Paciente
-    template_name='consulta/paciente_detail.html'
+    template_name = 'consulta/paciente_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetallePacienteView, self).get_context_data(**kwargs)
@@ -41,6 +43,7 @@ class AdicionarPacienteView(CreateView):
             }
         )
         return context
+
 
 class EditarPacienteView(UpdateView):
 
@@ -86,7 +89,7 @@ class ListarPacienteView(ListView):
             {
                 'campos':
                     (
-                        'no. HC', 
+                        'no. HC',
                         'nombre y apellidos',
                         'edad',
                         'sexo',
@@ -115,17 +118,13 @@ class AdicionarConsultaView(CreateView):
         return context
 
 
-class ConsultaPorFechaView(ListView):
+class ConsultaPorFechaView(DayArchiveView):
 
-    model = Consulta
+    queryset = Consulta.objects.all()
+    date_field = "fecha"
     template_name = 'consulta/consulta_por_fecha.html'
-    
-    def get(self, request, *args, **kwargs):
-        self.fecha = request.GET.get('fecha', date.today())
-        return super(ConsultaPorFechaView, self).get(request, *args, **kwargs)
-    
-    def get_queryset(self):
-        return Consulta.objects.filter(fecha=self.fecha)
+    month_format = "%m"
+    allow_empty = True
 
     def get_context_data(self, **kwargs):
         context = super(ConsultaPorFechaView, self).get_context_data(**kwargs)
@@ -133,7 +132,7 @@ class ConsultaPorFechaView(ListView):
             {
                 'campos':
                     (
-                        'no. HC', 
+                        'no. HC',
                         'nombre y apellidos',
                         'diagnóstico',
                         'MNT',

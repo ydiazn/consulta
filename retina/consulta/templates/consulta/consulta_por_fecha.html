@@ -1,0 +1,61 @@
+{% extends 'listar.html' %}
+
+{% block header %}
+
+<div class="page-header">
+    <h1>Consultas por fecha ({{day}})</h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        {% if previous_day %}
+            <a class="btn btn-primary" href="{% url 'consulta:consulta_por_fecha' year=previous_day.year month=previous_day.month day=previous_day.day %}" >Día anterior: {{previous_day}}</a>
+        {% endif %}
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        {% if next_day %}
+            <a class="btn btn-primary" href="{% url 'consulta:consulta_por_fecha' year=next_day.year month=next_day.month day=next_day.day %}" >Día siguiente: {{next_day}}</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock header %}
+
+{% block listado %}
+<td>{{ object.paciente.numero_historia_clinica }}</td>
+<td>{{ object.paciente }}</td>
+<td>
+    <ul class="list-group">
+    {% for diag in object.diagnostico.all %}
+        <li class="list-group-item list-group-item-info">{{diag}}</li>
+    {% endfor %}
+    </ul>
+</td>
+<td>{{ object.mnt }}</td>
+<td>
+    <a class="blue" href="{% url 'consulta:detalle_paciente' pk=object.pk %}" data-rel="tooltip" title="Detalles">
+       Detalles
+    </a>
+    <a class="blue" href="{% url 'consulta:editar_paciente' pk=object.pk %}" data-rel="tooltip" title="Editar">
+       Editar
+    </a>
+    <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
+       Eliminar
+    </a>
+</td>
+
+{% endblock listado %}
+
+{% load staticfiles %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/datepicker.min.css" %}" />
+{% endblock stylesheet %}
+
+{% block script %}
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script>
+        $("#fecha").datepicker()
+    </script>
+{% endblock script %}
