@@ -118,6 +118,29 @@ class AdicionarConsultaView(CreateView):
         return context
 
 
+class EditarConsultaView(UpdateView):
+
+    model = Consulta
+    template_name = 'consulta/consulta_editar.html'
+    form_class = ConsultaForm
+
+    def get_success_url(self):
+        return reverse('consulta:consulta_por_fecha', kwargs={
+            'year': self.object.fecha.year,
+            'month': self.object.fecha.month,
+            'day': self.object.fecha.day,
+        })
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarConsultaView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'Consulta'
+            }
+        )
+        return context
+
+
 class ConsultaPorFechaView(DayArchiveView):
 
     queryset = Consulta.objects.all()
