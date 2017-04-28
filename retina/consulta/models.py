@@ -1,10 +1,11 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
 from django.db import models
-from nucleo.models import AreaSalud, MNT, ClasificacionEnfermedad
+from nucleo.models import AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial
 from datetime import date
 
 # Create your models here.
+
 
 class Paciente(models.Model):
     sexo_choices = (('M', 'Masculino'), ('F', 'Femenino'),)
@@ -20,17 +21,19 @@ class Paciente(models.Model):
     ocupacion = models.CharField(max_length=45, blank=True)
     centro_trabajo = models.CharField(max_length=45, blank=True)
     foto = models.ImageField(upload_to='pacientes', blank=True)
-    
+
     def __unicode__(self):
         return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
-    
+
     def edad(self):
         return 3
 
 
 class Consulta(models.Model):
     paciente = models.ForeignKey(Paciente)
-    fecha = models.DateField()
+    medico = models.ForeignKey(Medico)
+    unidad = models.ForeignKey(UnidadAsistencial)
+    fecha = models.DateTimeField()
     diagnostico = models.ManyToManyField(ClasificacionEnfermedad)
     mnt = models.ForeignKey(MNT)
 

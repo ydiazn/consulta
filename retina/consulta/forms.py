@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from models import Paciente, Consulta
-from widgets import DateInput, ChosenInput
+from widgets import DatePicker, DateTimePicker, ChosenInput
 
 
 # Yusdanis Feus Pérez
@@ -12,7 +12,7 @@ class PacienteForm(forms.ModelForm):
         model = Paciente
         fields = "__all__"
         widgets = {
-            'fecha_nacimiento': DateInput,
+            'fecha_nacimiento': DatePicker,
         }
 
     def __init__(self, *args, **kwargs):
@@ -28,7 +28,7 @@ class ConsultaForm(forms.ModelForm):
         model = Consulta
         fields = "__all__"
         widgets = {
-            'fecha': DateInput,
+            'fecha': DateTimePicker,
             'paciente': ChosenInput
         }
 

@@ -2,12 +2,20 @@ from django import forms
 from django.conf import settings
 
 
-class DateInput(forms.TextInput):
+class DatePicker(forms.DateInput):
     class Media:
         css = {
             'all': ('%scss/datepicker.min.css' % settings.STATIC_URL,)
         }
         js = ('%sjs/bootstrap-datepicker.min.js' % settings.STATIC_URL,)
+
+
+class DateTimePicker(forms.DateTimeInput):
+    class Media:
+        css = {
+            'all': ('%scss/jquery.datetimepicker.min.css' % settings.STATIC_URL,)
+        }
+        js = ('%sjs/jquery.datetimepicker.full.min.js' % settings.STATIC_URL,)
 
 
 class ChosenInput(forms.Select):

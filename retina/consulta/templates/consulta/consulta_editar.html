@@ -20,10 +20,12 @@
 
     {{ form.media.js }}
     <script>
-        $('#id_fecha').datepicker();
+        $('#id_fecha').datetimepicker({format: 'Y-m-d H:i'});
         $('#id_paciente').chosen();
         $('#id_diagnostico').chosen();
         $('#id_mnt').chosen();
+        $('#id_medico').chosen();
+        $('#id_unidad').chosen();
     </script>
 
 {% endblock script %}
