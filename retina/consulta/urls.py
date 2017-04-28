@@ -34,7 +34,7 @@ urlpatterns = [
         name='adicionar_consulta'
     ),
     url(
-        r'^consulta_por_fecha/(?P<year>[0-9]{4})/(?P<month>0[1-9]|1[0-2])/(?P<day>[0-9]+)$',
+        r'^consulta_por_fecha/(?P<year>[0-9]{4})/(?P<month>[-\w]+)/(?P<day>[0-9]+)$',
         ConsultaPorFechaView.as_view(),
         name='consulta_por_fecha'
     ),

@@ -13,7 +13,10 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consulta
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="{% url 'consulta:consulta_por_fecha' year=2017 month='04' day=24 %}">Consulta por fecha</a></li>
+                {% now 'Y' as year %}
+                {% now 'm' as month %}
+                {% now 'd' as day %}
+                <li><a href="{% url 'consulta:consulta_por_fecha' year=year|add:'0' month=month|add:'0' day=day|add:'0' %}">Consulta por fecha</a></li>
                 <li><a href="{% url 'consulta:adicionar_consulta' %}">Adicionar consulta</a></li>
             </ul>
         </li>
