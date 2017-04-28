@@ -46,16 +46,3 @@
 </td>
 
 {% endblock listado %}
-
-{% load staticfiles %}
-
-{% block stylesheet %}
-    <link rel="stylesheet" href="{% static "css/datepicker.min.css" %}" />
-{% endblock stylesheet %}
-
-{% block script %}
-    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
-    <script>
-        $("#fecha").datepicker()
-    </script>
-{% endblock script %}
