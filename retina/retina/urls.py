@@ -15,10 +15,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from consulta import urls as consulta_url
+from nucleo import urls as nucleo_url
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(nucleo_url, namespace='nucleo')),
     url(r'^consulta/', include(consulta_url, namespace='consulta')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
