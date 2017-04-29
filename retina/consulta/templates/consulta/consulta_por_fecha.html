@@ -32,7 +32,13 @@
     {% endfor %}
     </ul>
 </td>
-<td>{{ object.mnt }}</td>
+<td>
+    <ul class="list-group">
+    {% for mnt in object.mnt.all %}
+        <li class="list-group-item list-group-item-info">{{mnt}}</li>
+    {% endfor %}
+    </ul>
+</td>
 <td>{{ object.medico }}</td>
 <td>{{ object.fecha.time }}</td>
 <td>

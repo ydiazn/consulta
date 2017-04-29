@@ -34,8 +34,8 @@ class Consulta(models.Model):
     medico = models.ForeignKey(Medico)
     unidad = models.ForeignKey(UnidadAsistencial)
     fecha = models.DateTimeField()
-    diganostico = models.ManyToManyField(Diagnostico)
-    mnt = models.ForeignKey(MNT)
+    diagnostico = models.ManyToManyField(Diagnostico)
+    mnt = models.ManyToManyField(MNT)
 
     def __unicode__(self):
         return "%No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)

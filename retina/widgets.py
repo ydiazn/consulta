@@ -24,3 +24,11 @@ class ChosenInput(forms.Select):
             'all': ('%scss/chosen.min.css' % settings.STATIC_URL,)
         }
         js = ('%sjs/chosen.jquery.min.js' % settings.STATIC_URL,)
+
+
+class ChosenInputMultiple(forms.SelectMultiple):
+    class Media:
+        css = {
+            'all': ('%scss/chosen.min.css' % settings.STATIC_URL,)
+        }
+        js = ('%sjs/chosen.jquery.min.js' % settings.STATIC_URL,)
