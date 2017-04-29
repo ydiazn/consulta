@@ -159,7 +159,8 @@ class ConsultaPorFechaView(DayArchiveView):
                         'nombre y apellidos',
                         'diagnóstico',
                         'MNT',
-                        'medico'
+                        'medico',
+                        'hora',
                     ),
                 'menu': 'consulta'
             }
