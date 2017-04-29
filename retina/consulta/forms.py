@@ -31,6 +31,7 @@ class ConsultaForm(forms.ModelForm):
             'fecha': DateTimePicker,
             'paciente': ChosenInput,
             'diagnostico': ChosenInputMultiple,
+            'conducta': ChosenInput,
             'mnt': ChosenInputMultiple
         }
 
@@ -38,3 +39,4 @@ class ConsultaForm(forms.ModelForm):
         super(ConsultaForm, self).__init__(*args, **kwargs)
         for field in self.fields.itervalues():
             field.widget.attrs['class'] = 'form-control'
+        self.fields['caso_nuevo'].widget.attrs['class'] = ""

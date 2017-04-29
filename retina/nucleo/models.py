@@ -36,6 +36,14 @@ class Diagnostico(models.Model):
         return self.nombre
 
 
+class Conducta(models.Model):
+    nombre = models.CharField(max_length=45, unique=True)
+    descripcion = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
 class Provincia(models.Model):
     nombre = models.CharField(
         max_length=45,

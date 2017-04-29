@@ -158,9 +158,11 @@ class ConsultaPorFechaView(DayArchiveView):
                         'no. HC',
                         'nombre y apellidos',
                         'diagnóstico',
+                        'conducta',
                         'MNT',
                         'medico',
                         'hora',
+                        'nuevo?',
                     ),
                 'menu': 'consulta'
             }

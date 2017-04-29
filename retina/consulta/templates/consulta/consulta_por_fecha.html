@@ -32,6 +32,7 @@
     {% endfor %}
     </ul>
 </td>
+<td>{{ object.conducta }}</td>
 <td>
     <ul class="list-group">
     {% for mnt in object.mnt.all %}
@@ -41,6 +42,7 @@
 </td>
 <td>{{ object.medico }}</td>
 <td>{{ object.fecha.time }}</td>
+<td>{% if object.caso_nuevo %}Sí{% else %}No{% endif %}</td>
 <td>
     <a class="blue" href="{% url 'consulta:detalle_paciente' pk=object.pk %}" data-rel="tooltip" title="Detalles">
        <i class="fa fa-plus"></i>
