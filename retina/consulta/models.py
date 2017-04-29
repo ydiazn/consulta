@@ -27,6 +27,11 @@ class Paciente(models.Model):
     def __unicode__(self):
         return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
 
+    @property
+    def nombre_completo(self):
+        return self.__unicode__()
+
+    @property
     def edad(self):
         return 3
 
@@ -42,4 +47,4 @@ class Consulta(models.Model):
     mnt = models.ManyToManyField(MNT)
 
     def __unicode__(self):
-        return "%No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)
+        return "No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)

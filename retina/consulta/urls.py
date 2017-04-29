@@ -43,4 +43,9 @@ urlpatterns = [
         ConsultaPorFechaView.as_view(),
         name='consulta_por_fecha'
     ),
+    url(
+        r'^registro_pacientes/(?P<year>[0-9]{4})/(?P<month>[-\w]+)/(?P<day>[0-9]+)$',
+        registro_pacientes,
+        name='registro_pacientes'
+    ),
 ]
