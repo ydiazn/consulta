@@ -1,6 +1,7 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -8,6 +9,7 @@ from django.views.generic.dates import DayArchiveView
 from consulta.models import Paciente, Consulta
 from consulta.forms import PacienteForm, ConsultaForm
 from datetime import date
+from helpers import RegistroPacientesWorkbook
 
 # Create your views here.
 
@@ -168,3 +170,13 @@ class ConsultaPorFechaView(DayArchiveView):
             }
         )
         return context
+
+
+def registro_pacientes(request, year, month, day):
+    #consultas = Consulta.objects.filter(fecha__year=year, fecha__month=month, fecha__day=day)
+    consultas = Consulta.objects.filter()
+    registro = RegistroPacientesWorkbook(consultas)
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename = Registro.xls'
+    response.write(registro.xlsx_data())
+    return response

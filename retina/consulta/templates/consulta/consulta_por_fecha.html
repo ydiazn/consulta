@@ -6,6 +6,12 @@
     <h1>Consultas por fecha ({{day}})</h1>
 </div>
 
+<div style="text-align:left;margin-bottom:5px">
+    <a class="btn btn-default" href="{% url 'consulta:registro_pacientes' year=day.year month=day.month day=day.day %}" data-rel="tooltip" title="Imprimir registro de pacientes">
+       <i class="fa fa-print"></i>
+    </a>
+</div>
+
 <div class="row" style="margin-bottom:20px">
     <div class="col-sm-4">
         {% if previous_day %}
@@ -13,7 +19,7 @@
         {% endif %}
     </div>
     <div class="col-sm-4"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" style="text-align:right">
         {% if next_day %}
             <a class="btn btn-primary" href="{% url 'consulta:consulta_por_fecha' year=next_day.year month=next_day.month day=next_day.day %}" >Día siguiente: {{next_day}}</a>
         {% endif %}
@@ -44,15 +50,12 @@
 <td>{{ object.fecha.time }}</td>
 <td>{% if object.caso_nuevo %}Sí{% else %}No{% endif %}</td>
 <td>
-    <a class="blue" href="{% url 'consulta:detalle_paciente' pk=object.pk %}" data-rel="tooltip" title="Detalles">
-       <i class="fa fa-plus"></i>
-    </a>
     <a class="blue" href="{% url 'consulta:editar_consulta' pk=object.pk %}" data-rel="tooltip" title="Editar">
        <i class="fa fa-pencil"></i>
     </a>
-    <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
+    <!--<a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
        <i class="fa fa-trash"></i>
-    </a>
+    </a>-->
 </td>
 
 {% endblock listado %}
