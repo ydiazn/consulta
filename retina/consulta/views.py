@@ -172,6 +172,36 @@ class ConsultaPorFechaView(DayArchiveView):
         return context
 
 
+class EliminarConsultaView(DeleteView):
+
+    model = Consulta
+
+    def get_object(self):
+        object = super(EliminarConsultaView, self).get_object()
+        self.redirect_url = reverse(
+                                'consulta:consulta_por_fecha',
+                                kwargs={
+                                    'year': object.fecha.year,
+                                    'month': object.fecha.month,
+                                    'day': object.fecha.day
+                                }
+                            )
+        return object
+
+    def get_success_url(self):
+        return self.redirect_url
+
+    def get_context_data(self, **kwargs):
+        context = super(EliminarConsultaView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'url_cancelar': self.redirect_url,
+                'menu': 'consulta'
+            }
+        )
+        return context
+
+
 def registro_pacientes(request, year, month, day):
     #consultas = Consulta.objects.filter(fecha__year=year, fecha__month=month, fecha__day=day)
     consultas = Consulta.objects.filter()

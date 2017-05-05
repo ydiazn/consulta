@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>Eliminar paciente</h1>
+    <div class="page-header">
+        <h3>{% block header_message %}{% endblock header_message %}<h3>
+    </div>
 {% endblock header %}
 
 {% block page %}
@@ -10,7 +12,7 @@
     <div class="panel-heading">Confirmar eliminación</div>
     <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
-            <p>Está seguro que desea eliminar {% block mensaje %}{% endblock mensaje %}?</p>
+            <p>{% block mensaje %}{% endblock mensaje %}</p>
             <input class='btn btn-primary' type="submit" value="Aceptar" />
             <a href="{{url_cancelar}}" class='btn btn-primary'>Cancelar</a>
         </form>

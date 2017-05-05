@@ -44,6 +44,11 @@ urlpatterns = [
         name='consulta_por_fecha'
     ),
     url(
+        r'^eliminar/consulta/(?P<pk>\w+)/$',
+        EliminarConsultaView.as_view(),
+        name='eliminar_consulta'
+    ),
+    url(
         r'^registro_pacientes/(?P<year>[0-9]{4})/(?P<month>[-\w]+)/(?P<day>[0-9]+)$',
         registro_pacientes,
         name='registro_pacientes'
