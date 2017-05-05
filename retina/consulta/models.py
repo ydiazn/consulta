@@ -1,5 +1,6 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from nucleo.models import (
     AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial, Diagnostico, Conducta
@@ -33,7 +34,7 @@ class Paciente(models.Model):
 
     @property
     def edad(self):
-        return 3
+        return relativedelta(date.today(), self.fecha_nacimiento).years
 
 
 class Consulta(models.Model):
