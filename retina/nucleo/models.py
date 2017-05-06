@@ -38,6 +38,7 @@ class Diagnostico(models.Model):
 
 class Conducta(models.Model):
     nombre = models.CharField(max_length=45, unique=True)
+    abreviatura = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(blank=True)
 
     def __unicode__(self):
@@ -78,13 +79,11 @@ class AreaSalud(models.Model):
 
 # Medicina natural tradicional
 class MNT(models.Model):
-    nombre = models.CharField(
-        max_length=100,
-        unique=True
-    )
-
+    nombre = models.CharField(max_length=100, unique=True)
+    abreviatura = models.CharField(max_length=10, unique=True)
+    
     def __unicode__(self):
-        return self.nombre
+        return self.abreviatura
 
 
 class Enfermedad(models.Model):
