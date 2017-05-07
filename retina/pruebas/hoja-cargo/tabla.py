@@ -1,4 +1,4 @@
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, ListFlowable, ListItem
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
@@ -18,6 +18,8 @@ LIST_STYLE = TableStyle([
     ('ALIGN', (3,3), (3,-1), 'CENTER'),
     ('ALIGN', (4,4), (4,-1), 'CENTER'),
     ('ALIGN', (7,4), (7,-1), 'CENTER'),
+    ('ALIGN', (8,3), (8,-1), 'CENTER'),
+    ('ALIGN', (9,3), (9,-1), 'CENTER'),
     ('LEFTPADDING', (0,0), (-1,-1), 1.5),
     ('RIGHTPADDING', (0,0), (-1,-1), 1.5),
     ('SPAN', (0,0), (9,0)),
@@ -29,7 +31,7 @@ LIST_STYLE = TableStyle([
 ]
 )
 
-colWidths = [0.23*inch, .45*inch, 1.5*inch, .3*inch, .3*inch, 1.7*inch, 2.7*inch, 0.23*inch, 0.6*inch, 0.5*inch]
+colWidths = [0.23*inch, .48*inch, 1.7*inch, .33*inch, .33*inch, 2.3*inch, 2.7*inch, 0.23*inch, 0.8*inch, 0.5*inch]
 
 class HojaCargoPorMedicoSesion:
     
@@ -71,10 +73,10 @@ class HojaCargoPorMedicoSesion:
                 consulta.paciente.edad,
                 consulta.paciente.sexo,
                 Paragraph("<para fontSize=8>%s</para>" % consulta.paciente.direccion, self.stylesheet['Normal']),
-                Paragraph("<para fontSize=8>%s</para>" % self._queryset_to_string(consulta.diagnostico.all()), self.stylesheet['Normal']),
+                self._queryset_to_paragraph(consulta.diagnostico.all()),
                 self._caso_nuevo_string(consulta),
                 consulta.conducta.abreviatura,
-                self._queryset_to_string(consulta.mnt.all()),
+                self._queryset_to_paragraph(consulta.mnt.all()),
             ]
             data.append(data_consulta)
             i = i + 1
@@ -86,16 +88,12 @@ class HojaCargoPorMedicoSesion:
         else:
             return ""
         
-    def _queryset_to_string(self, queryset):
+    def _queryset_to_paragraph(self, queryset):
         i = 0
-        elements = ""
+        items = []
         for element in queryset:
-            if i == 0:
-                elements = element
-            else:
-                elements = "%s\n%s" % (elements, element)
-            i = i + 1
-        return elements
+            items.append(Paragraph("<para fontSize=8><bullet></bullet>&bull;%s</para>" % element, self.stylesheet['Normal']))
+        return items
 
 
 class HojaCargoPorMedico:
@@ -111,9 +109,10 @@ class HojaCargoPorMedico:
 
 class HojaCargo:
     
-    def __init__(self, consultas, titulo="prueba.pdf", pagesize=letter, leftmargin=0.5*inch, rightmargin=0.5*inch):
+    def __init__(self, consultas, titulo="prueba.pdf", pagesize=letter):
+        print "pagesize", pagesize
         self.consultas = consultas
-        self.doc = SimpleDocTemplate(titulo)
+        self.doc = SimpleDocTemplate(titulo, pagesize=(pagesize[1], pagesize[0]))
         self.content = []
         self.generar_hojas_cargo()
         
@@ -125,7 +124,6 @@ class HojaCargo:
             
     def write(self):
         self.doc.build(self.content)
-        #print self.content
     
 hoja_cargo = HojaCargo(Consulta.objects.all())
 hoja_cargo.write()
