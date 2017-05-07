@@ -109,10 +109,10 @@ class HojaCargoPorMedico:
 
 class HojaCargo:
     
-    def __init__(self, consultas, titulo="prueba.pdf", pagesize=letter):
+    def __init__(self, consultas, file="prueba.pdf", pagesize=letter):
         print "pagesize", pagesize
         self.consultas = consultas
-        self.doc = SimpleDocTemplate(titulo, pagesize=(pagesize[1], pagesize[0]))
+        self.doc = SimpleDocTemplate(file, pagesize=(pagesize[1], pagesize[0]))
         self.content = []
         self.generar_hojas_cargo()
         

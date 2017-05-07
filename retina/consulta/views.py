@@ -10,6 +10,8 @@ from consulta.models import Paciente, Consulta
 from consulta.forms import PacienteForm, ConsultaForm
 from datetime import date
 from helpers import RegistroPacientesWorkbook
+from io import BytesIO
+from consulta.pdfprint import HojaCargo
 
 # Create your views here.
 
@@ -203,10 +205,15 @@ class EliminarConsultaView(DeleteView):
 
 
 def registro_pacientes(request, year, month, day):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename = Hoja de cargo del %s/%s/%s' % (day, month, year)
+    
     #consultas = Consulta.objects.filter(fecha__year=year, fecha__month=month, fecha__day=day)
-    consultas = Consulta.objects.filter()
-    registro = RegistroPacientesWorkbook(consultas)
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename = Registro.xls'
-    response.write(registro.xlsx_data())
+    consultas = Consulta.objects.all()
+    buffer = BytesIO()
+    hoja_cargo = HojaCargo(consultas, file=buffer)
+    hoja_cargo.write()
+    
+    response.write(buffer.getvalue())
+    buffer.close()
     return response
