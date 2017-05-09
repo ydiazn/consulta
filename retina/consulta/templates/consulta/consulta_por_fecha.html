@@ -12,12 +12,6 @@
     </a>
 </div>
 
-<div style="text-align:right;margin-bottom:5px">
-    <a class="btn btn-default" href="{% url 'consulta:registro_pacientes' year=day.year month=day.month day=day.day %}" data-rel="tooltip" title="Imprimir registro de pacientes">
-       <i class="fa fa-print"></i>
-    </a>
-</div>
-
 <div class="row" style="margin-bottom:20px">
     <div class="col-sm-4">
         {% if previous_day %}
@@ -61,7 +55,7 @@
     </a>
     <a class="blue" href="{% url 'consulta:eliminar_consulta' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
        <i class="fa fa-trash"></i>
-    </a>-->
+    </a>
 </td>
 
 {% endblock listado %}

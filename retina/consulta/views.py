@@ -207,11 +207,9 @@ class EliminarConsultaView(DeleteView):
 def registro_pacientes(request, year, month, day):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename = Hoja de cargo del %s/%s/%s' % (day, month, year)
-
     # consultas = Consulta.objects.filter(fecha__year=year, fecha__month=month, fecha__day=day)
-    consultas = Consulta.objects.all()
     buffer = BytesIO()
-    hoja_cargo = HojaCargo(consultas, file=buffer)
+    hoja_cargo = HojaCargo(year, month, day, file=buffer)
     hoja_cargo.write()
 
     response.write(buffer.getvalue())
