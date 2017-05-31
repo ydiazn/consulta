@@ -20,7 +20,8 @@
 
     {{ form.media.js }}
     <script>
-        $('#id_fecha').datetimepicker({format: 'd-m-Y H:i'});
+        $('#id_fecha').datetimepicker({format: 'd/m/Y H:i'});
+        $('#id_especialidad').chosen();
         $('#id_paciente').chosen();
         $('#id_diagnostico').chosen();
         $('#id_mnt').chosen();

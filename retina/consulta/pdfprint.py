@@ -58,7 +58,7 @@ class HojaCargoPorMedicoSesion:
         return [
             ['Hoja de Cargo', '', '', '', '', '', '', '', '', ''],
             ['Unidad: %s' % self.consultas[0].unidad, '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
-            ['Consulta: Retina', '', '', '', '', 'Medico: %s' % self.consultas[0].medico, '', 'Hora: %s' % sesion, '', ''],
+            ['Consulta: %s' % self.consultas[0].especialidad, '', '', '', '', 'Medico: %s' % self.consultas[0].medico, '', 'Hora: %s' % sesion, '', ''],
             ['No.', 'HC', 'Paciente', 'Edad', 'Sexo', 'Direccion', 'Diagnostico', 'CN', 'CAS', 'MNT']
         ]
 

@@ -29,6 +29,7 @@ class ConsultaForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'fecha': DateTimePicker,
+            'especialidad': ChosenInput,
             'paciente': ChosenInput,
             'diagnostico': ChosenInputMultiple,
             'conducta': ChosenInput,

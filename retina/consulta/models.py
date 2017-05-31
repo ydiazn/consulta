@@ -3,7 +3,7 @@
 from dateutil.relativedelta import relativedelta
 from django.db import models
 from nucleo.models import (
-    AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial, Diagnostico, Conducta
+    AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial, Diagnostico, Conducta, Especialidad
 )
 from datetime import date
 
@@ -23,7 +23,7 @@ class Paciente(models.Model):
     area_salud = models.ForeignKey(AreaSalud)
     ocupacion = models.CharField(max_length=45, blank=True)
     centro_trabajo = models.CharField(max_length=45, blank=True)
-    foto = models.ImageField(upload_to='pacientes', blank=True)
+    # foto = models.ImageField(upload_to='pacientes', blank=True)
 
     def __unicode__(self):
         return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
@@ -38,6 +38,7 @@ class Paciente(models.Model):
 
 
 class Consulta(models.Model):
+    especialidad = models.ForeignKey(Especialidad)
     paciente = models.ForeignKey(Paciente)
     medico = models.ForeignKey(Medico)
     unidad = models.ForeignKey(UnidadAsistencial)
