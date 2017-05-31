@@ -6,6 +6,12 @@
     <h3>Listado de pacientes</h3>
 </div>
 
+<div style="text-align:left;margin-bottom:5px">
+    <a class="btn btn-default" href="{% url 'consulta:adicionar_paciente' %}" data-rel="tooltip" title="Adicionar paciente">
+       <i class="fa fa-plus"></i>
+    </a>
+</div>
+
 {% endblock header %}
 
 {% block listado %}

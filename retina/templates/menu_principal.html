@@ -2,25 +2,19 @@
 <div>
     <ul class="nav navbar-default navbar-fixed-top nav-pills">
         <li {% if menu == 'paciente' %} class='active' {% endif %} class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Paciente
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+            <a href="{% url 'consulta:listar_paciente' %}">Pacientes</a>
+            <!--<ul class="dropdown-menu">
                 <li><a href="{% url 'consulta:listar_paciente' %}">Listado de pacientes</a></li>
                 <li><a href="{% url 'consulta:adicionar_paciente' %}">Adicionar paciente</a></li>
-            </ul>
+            </ul>-->
         </li>
         <li {% if menu == 'consulta' %} class='active' {% endif %} class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consulta
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                {% now 'Y' as year %}
-                {% now 'm' as month %}
-                {% now 'd' as day %}
-                <li><a href="{% url 'consulta:consulta_por_fecha' year=year|add:'0' month=month|add:'0' day=day|add:'0' %}">Consulta por fecha</a></li>
-                <li><a href="{% url 'consulta:adicionar_consulta' %}">Adicionar consulta</a></li>
-            </ul>
+            {% now 'Y' as year %}
+            {% now 'm' as month %}
+            {% now 'd' as day %}
+            <a href="{% url 'consulta:consulta_por_fecha' year=year|add:'0' month=month|add:'0' day=day|add:'0' %}">Consultas</a>
         </li>
-        <li class="dropdown">
+        <!--<li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Modelos
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -28,6 +22,6 @@
                 <li><a href="#">Certificado médico</a></li>
                 <li><a href="#">Certificado de tratamiento con medicamentos controlados por tarjeta</a></li>
             </ul>
-        </li>
+        </li>-->
     </ul>
 </div>
