@@ -105,15 +105,17 @@ class ListarPacienteView(ListView):
         return context
 
 
-class AdicionarConsultaView(CreateView):
+class ModificarConsultaMixin(object):
 
-    model = Consulta
-    template_name = 'consulta/consulta_adicionar.html'
-    form_class = ConsultaForm
-    success_url = reverse_lazy('consulta:listar_paciente')
+    def get_success_url(self):
+        return reverse('consulta:consulta_por_fecha', kwargs={
+            'year': self.object.fecha.year,
+            'month': self.object.fecha.month,
+            'day': self.object.fecha.day,
+        })    
 
     def get_context_data(self, **kwargs):
-        context = super(AdicionarConsultaView, self).get_context_data(**kwargs)
+        context = super(ModificarConsultaMixin, self).get_context_data(**kwargs)
         context.update(
             {
                 'menu': 'consulta'
@@ -122,27 +124,18 @@ class AdicionarConsultaView(CreateView):
         return context
 
 
-class EditarConsultaView(UpdateView):
+class AdicionarConsultaView(ModificarConsultaMixin, CreateView):
+
+    model = Consulta
+    template_name = 'consulta/consulta_adicionar.html'
+    form_class = ConsultaForm
+
+
+class EditarConsultaView(ModificarConsultaMixin, UpdateView):
 
     model = Consulta
     template_name = 'consulta/consulta_editar.html'
     form_class = ConsultaForm
-
-    def get_success_url(self):
-        return reverse('consulta:consulta_por_fecha', kwargs={
-            'year': self.object.fecha.year,
-            'month': self.object.fecha.month,
-            'day': self.object.fecha.day,
-        })
-
-    def get_context_data(self, **kwargs):
-        context = super(EditarConsultaView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'Consulta'
-            }
-        )
-        return context
 
 
 class ConsultaPorFechaView(DayArchiveView):
@@ -207,7 +200,6 @@ class EliminarConsultaView(DeleteView):
 def registro_pacientes(request, year, month, day):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename = Hoja de cargo del %s/%s/%s' % (day, month, year)
-    # consultas = Consulta.objects.filter(fecha__year=year, fecha__month=month, fecha__day=day)
     buffer = BytesIO()
     hoja_cargo = HojaCargo(year, month, day, file=buffer)
     hoja_cargo.write()

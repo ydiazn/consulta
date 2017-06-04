@@ -1,3 +1,5 @@
+# -*- encoding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, ListFlowable, ListItem
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.pagesizes import letter
@@ -6,7 +8,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet
 from consulta.models import Consulta
 from nucleo.models import Medico
-from datetime import date
+from datetime import date, datetime
 
 LIST_STYLE = TableStyle([
     ('FONTSIZE', (0, 1), (-1, -1), 8),
@@ -38,8 +40,6 @@ class HojaCargoPorMedicoSesion:
     def __init__(self, consultas):
         self.consultas = consultas
         self.stylesheet = getSampleStyleSheet()
-        #self.table = Table(self.generate_table())
-        #self.table.setStyle(LIST_STYLE)
 
     def generate_table(self):
         data = self.get_table_header()
@@ -54,12 +54,14 @@ class HojaCargoPorMedicoSesion:
             sesion = '8:00 AM - 12:00 AM'
         else:
             sesion = '1:00 PM - 5:00 PM'
+        
+        str_medico = unicode('Médico', 'utf-8')
 
         return [
             ['Hoja de Cargo', '', '', '', '', '', '', '', '', ''],
             ['Unidad: %s' % unicode(self.consultas[0].unidad), '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
-            ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', 'Medico: %s' % unicode(self.consultas[0].medico), '', 'Hora: %s' % sesion, '', ''],
-            ['No.', 'HC', 'Paciente', 'Edad', 'Sexo', 'Direccion', 'Diagnostico', 'CN', 'CAS', 'MNT']
+            ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', unicode('Médico: %s' % self.consultas[0].medico, 'utf-8'), '', 'Hora: %s' % sesion, '', ''],
+            ['No.', 'HC', 'Paciente', 'Edad', 'Sexo', unicode('Dirección', 'utf-8'), unicode('Diagnóstico', 'utf-8'), 'CN', 'CAS', 'MNT']
         ]
 
     def get_table_data(self):
@@ -99,29 +101,42 @@ class HojaCargoPorMedicoSesion:
 class HojaCargoPorMedico:
 
     def __init__(self, consultas):
-        self.hoja = HojaCargoPorMedicoSesion(consultas)
+        fecha = consultas[0].fecha
+        fecha = datetime(fecha.year, fecha.month, fecha.day, 12, 0, 0)
+        self.consultas_manana = consultas.filter(fecha__lte=fecha)
+        self.consultas_tarde = consultas.filter(fecha__gt=fecha)
         self.content = []
         self.add_hojas()
 
     def add_hojas(self):
-        self.content.append(self.hoja.generate_table())
+        if self.consultas_manana:
+            hoja = HojaCargoPorMedicoSesion(self.consultas_manana)
+            self.content.append(hoja.generate_table())
+            if self.consultas_tarde:
+                self.content.append(PageBreak())
+        if self.consultas_tarde:
+            hoja = HojaCargoPorMedicoSesion(self.consultas_tarde)
+            self.content.append(hoja.generate_table())
 
 
 class HojaCargo:
 
     def __init__(self, year, month, day, file="prueba.pdf", pagesize=letter):
-        print "pagesize", pagesize
         self.doc = SimpleDocTemplate(file, pagesize=(pagesize[1], pagesize[0]))
         self.content = []
         self.generar_hojas_cargo(year, month, day)
 
     def generar_hojas_cargo(self, year, month, day):
+        flag = False
         for medico in Medico.objects.all():
             consultas = medico.consulta_set.filter(fecha__year=year, fecha__month=month, fecha__day=day)
             if consultas:
+                if flag:
+                    self.content.append(PageBreak())
                 hoja = HojaCargoPorMedico(consultas)
                 self.content.extend(hoja.content)
-                self.content.append(PageBreak())
+                flag = True
+
 
     def write(self):
         self.doc.build(self.content)
