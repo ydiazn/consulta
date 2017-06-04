@@ -57,8 +57,8 @@ class HojaCargoPorMedicoSesion:
 
         return [
             ['Hoja de Cargo', '', '', '', '', '', '', '', '', ''],
-            ['Unidad: %s' % self.consultas[0].unidad, '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
-            ['Consulta: %s' % self.consultas[0].especialidad, '', '', '', '', 'Medico: %s' % self.consultas[0].medico, '', 'Hora: %s' % sesion, '', ''],
+            ['Unidad: %s' % unicode(self.consultas[0].unidad), '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
+            ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', 'Medico: %s' % unicode(self.consultas[0].medico), '', 'Hora: %s' % sesion, '', ''],
             ['No.', 'HC', 'Paciente', 'Edad', 'Sexo', 'Direccion', 'Diagnostico', 'CN', 'CAS', 'MNT']
         ]
 
@@ -72,7 +72,7 @@ class HojaCargoPorMedicoSesion:
                 Paragraph("<para fontSize=8>%s</para>" % consulta.paciente, self.stylesheet['Normal']),
                 consulta.paciente.edad,
                 consulta.paciente.sexo,
-                Paragraph("<para fontSize=8>%s</para>" % consulta.paciente.direccion, self.stylesheet['Normal']),
+                Paragraph("<para fontSize=8>%s</para>" % unicode(consulta.paciente.direccion), self.stylesheet['Normal']),
                 self._queryset_to_paragraph(consulta.diagnostico.all()),
                 self._caso_nuevo_string(consulta),
                 consulta.conducta.abreviatura,
@@ -92,7 +92,7 @@ class HojaCargoPorMedicoSesion:
         i = 0
         items = []
         for element in queryset:
-            items.append(Paragraph("<para fontSize=8><bullet></bullet>&bull;%s</para>" % element, self.stylesheet['Normal']))
+            items.append(Paragraph("<para fontSize=8>%s</para>" % unicode(element), self.stylesheet['Normal']))
         return items
 
 
