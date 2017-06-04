@@ -13,3 +13,22 @@
 {% include 'formulario_editar.html' %}
 
 {% endblock page %}
+
+{% load staticfiles %}
+
+{% block stylesheet %}
+
+    {{ form.media.css }}
+
+{% endblock stylesheet %}
+
+{% block script %}
+
+    {{ form.media.js }}
+    <script>
+        $('#id_fecha_nacimiento').datepicker({
+            language: 'es'
+        });
+    </script>
+
+{% endblock script %}

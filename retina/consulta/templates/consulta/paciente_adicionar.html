@@ -4,6 +4,7 @@
 
     <div class="page-header">
         <h3>Adicionar paciente</h3>
+
     </div>
 
     {% include 'formulario.html' %}
@@ -23,7 +24,9 @@
 
     {{ form.media.js }}
     <script>
-        $('#id_fecha_nacimiento').datepicker();
+        $('#id_fecha_nacimiento').datepicker({
+            language: 'es'
+        });
     </script>
 
 {% endblock script %}
