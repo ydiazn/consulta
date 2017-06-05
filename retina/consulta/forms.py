@@ -13,6 +13,9 @@ class PacienteForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'fecha_nacimiento': DatePicker,
+            'area_salud': ChosenInput,
+            'sexo': ChosenInput,
+            'especialidad': ChosenInput,
         }
 
     def __init__(self, *args, **kwargs):
