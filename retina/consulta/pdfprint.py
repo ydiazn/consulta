@@ -53,7 +53,7 @@ class HojaCargoPorMedicoSesion:
         if self.consultas[0].fecha.hour <= 12:
             sesion = '8:00 AM - 12:00 AM'
         else:
-            sesion = '1:00 PM - 5:00 PM'
+            sesion = '1:00 PM - 4:00 PM'
         
         str_medico = unicode('Médico', 'utf-8')
 
