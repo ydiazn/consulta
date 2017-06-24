@@ -6,6 +6,7 @@ from nucleo.models import (
     AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial, Diagnostico, Conducta, Especialidad
 )
 from datetime import date
+from utils import historia_from_ci
 
 # Create your models here.
 
@@ -24,6 +25,15 @@ class Paciente(models.Model):
     ocupacion = models.CharField(max_length=45, blank=True)
     centro_trabajo = models.CharField(max_length=45, blank=True)
     # foto = models.ImageField(upload_to='pacientes', blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Pacientes'
+        ordering = ('-id',)
+
+
+    def save(self, *args, **kwargs):
+        self.numero_historia_clinica = historia_from_ci(self.ci)
+        super(Paciente, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
