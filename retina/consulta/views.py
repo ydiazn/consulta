@@ -152,6 +152,7 @@ class ConsultaPorFechaView(DayArchiveView):
             {
                 'campos':
                     (
+                        'tipo',                        
                         'no. HC',
                         'nombre y apellidos',
                         'diagnóstico',

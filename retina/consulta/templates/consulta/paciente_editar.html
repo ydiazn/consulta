@@ -26,9 +26,8 @@
 
     {{ form.media.js }}
     <script>
-        $('#id_fecha_nacimiento').datepicker({
-            language: 'es'
-        });
+        $('#id_area_salud').chosen();
+        $('#id_sexo').chosen()
     </script>
 
 {% endblock script %}

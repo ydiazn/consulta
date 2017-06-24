@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
-{% block page %}
+{% block header %}
+
 <div class="page-header">
     <h3>Detalle de paciente</h3>
 </div>
+
+<div style="text-align:right;margin-bottom:5px">
+    <a class="btn btn-primary" href="{% url 'consulta:editar_paciente' pk=object.pk %}" data-rel="tooltip" title="Editar">
+       <i class="fa fa-pencil"></i>
+    </a>
+    <a class="btn btn-primary" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
+       <i class="fa fa-trash"></i>
+    </a>
+</div>
+
+{% endblock header %}
+
+{% block page %}
 <div class="panel-group">
     <div class="panel panel-primary">
         <div class="panel-heading">Información básica</div>

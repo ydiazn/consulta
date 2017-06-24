@@ -10,9 +10,8 @@ class PacienteForm(forms.ModelForm):
 
     class Meta:
         model = Paciente
-        fields = "__all__"
+        exclude = ['numero_historia_clinica']
         widgets = {
-            'fecha_nacimiento': DatePicker,
             'area_salud': ChosenInput,
             'sexo': ChosenInput,
             'especialidad': ChosenInput,
@@ -44,3 +43,4 @@ class ConsultaForm(forms.ModelForm):
         for field in self.fields.itervalues():
             field.widget.attrs['class'] = 'form-control'
         self.fields['caso_nuevo'].widget.attrs['class'] = ""
+
