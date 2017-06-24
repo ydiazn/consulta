@@ -1,18 +1,18 @@
 # -*- encoding:utf-8 -*-
 # -*- coding:utf-8 -*-
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, ListFlowable, ListItem
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, ListFlowable, ListItem, Spacer
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet
 from consulta.models import Consulta
-from nucleo.models import Medico
+from nucleo.models import Medico, Especialidad
 from datetime import date, datetime
 
 LIST_STYLE = TableStyle([
-    ('FONTSIZE', (0, 1), (-1, -1), 8),
-    ('FONTSIZE', (0,0), (0,0), 11),
+    ('FONTSIZE', (0, 0), (-1, -1), 11),
+    ('FONTSIZE', (0,0), (0,0), 14),
     ('GRID', (0,1), (-1,-1), 1, colors.black),
     ('VALIGN', (0,0), (-1,-1), 'TOP'),
     ('ALIGN', (0,0), (9,0), 'CENTER'),
@@ -24,6 +24,7 @@ LIST_STYLE = TableStyle([
     ('ALIGN', (9,3), (9,-1), 'CENTER'),
     ('LEFTPADDING', (0,0), (-1,-1), 1.5),
     ('RIGHTPADDING', (0,0), (-1,-1), 1.5),
+    ('BOTTOMPADDING', (0,0), (0,0), 20),
     ('SPAN', (0,0), (9,0)),
     ('SPAN', (0,1), (6,1)),
     ('SPAN', (0,2), (4,2)),
@@ -33,7 +34,7 @@ LIST_STYLE = TableStyle([
 ]
 )
 
-colWidths = [0.23*inch, .48*inch, 1.7*inch, .33*inch, .33*inch, 2.3*inch, 2.7*inch, 0.23*inch, 0.8*inch, 0.5*inch]
+colWidths = [0.23*inch, .58*inch, 2.2*inch, .35*inch, .35*inch, 2.5*inch, 3.0*inch, 0.26*inch, 0.8*inch, 0.5*inch]
 
 class HojaCargoPorMedicoSesion:
 
@@ -50,18 +51,19 @@ class HojaCargoPorMedicoSesion:
         year = self.consultas[0].fecha.year
         month = self.consultas[0].fecha.month
         day = self.consultas[0].fecha.day
-        if self.consultas[0].fecha.hour <= 12:
-            sesion = '8:00 AM - 12:00 AM'
+        fecha = datetime(year, month, day, 12, 0, 0)
+        if self.consultas[0].fecha <= fecha:
+            sesion = '8:00 AM-12:00 AM'
         else:
-            sesion = '1:00 PM - 4:00 PM'
+            sesion = '1:00 PM-4:00 PM'
         
         str_medico = unicode('Médico', 'utf-8')
 
         return [
             ['Hoja de Cargo', '', '', '', '', '', '', '', '', ''],
             ['Unidad: %s' % unicode(self.consultas[0].unidad), '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
-            ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', unicode('Médico: %s' % self.consultas[0].medico, 'utf-8'), '', 'Hora: %s' % sesion, '', ''],
-            ['No.', 'HC', 'Paciente', 'Edad', 'Sexo', unicode('Dirección', 'utf-8'), unicode('Diagnóstico', 'utf-8'), 'CN', 'CAS', 'MNT']
+            ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', unicode('Médico: %s' % self.consultas[0].medico, 'utf-8'), '', sesion, '', ''],
+            ['No.', 'HC', 'Paciente', 'E', 'S', unicode('Dirección', 'utf-8'), unicode('Diagnóstico', 'utf-8'), 'CN', 'CAS', 'MNT']
         ]
 
     def get_table_data(self):
@@ -71,10 +73,10 @@ class HojaCargoPorMedicoSesion:
             data_consulta = [
                 i + 1,
                 consulta.paciente.numero_historia_clinica,
-                Paragraph("<para fontSize=8>%s</para>" % consulta.paciente, self.stylesheet['Normal']),
+                Paragraph("<para fontSize=12>%s</para>" % consulta.paciente, self.stylesheet['Normal']),
                 consulta.paciente.edad,
                 consulta.paciente.sexo,
-                Paragraph("<para fontSize=8>%s</para>" % unicode(consulta.paciente.direccion), self.stylesheet['Normal']),
+                Paragraph("<para fontSize=12>%s</para>" % unicode(consulta.paciente.direccion), self.stylesheet['Normal']),
                 self._queryset_to_paragraph(consulta.diagnostico.all()),
                 self._caso_nuevo_string(consulta),
                 consulta.conducta.abreviatura,
@@ -94,7 +96,7 @@ class HojaCargoPorMedicoSesion:
         i = 0
         items = []
         for element in queryset:
-            items.append(Paragraph("<para fontSize=8>%s</para>" % unicode(element), self.stylesheet['Normal']))
+            items.append(Paragraph("<para fontSize=12>%s</para>" % unicode(element), self.stylesheet['Normal']))
         return items
 
 
@@ -119,6 +121,25 @@ class HojaCargoPorMedico:
             self.content.append(hoja.generate_table())
 
 
+class HojaCargoPorTipoConsulta:
+
+    def __init__(self, consultas):
+        self.consultas = consultas        
+        self.content = []
+        self.add_hojas()
+
+    def add_hojas(self):
+        flag = False
+        for medico in Medico.objects.all():
+            consultas = self.consultas.filter(medico=medico)
+            if consultas:
+                if flag:
+                    self.content.append(PageBreak())
+                hoja = HojaCargoPorMedico(consultas)
+                self.content.extend(hoja.content)
+                flag = True
+
+
 class HojaCargo:
 
     def __init__(self, year, month, day, file="prueba.pdf", pagesize=letter):
@@ -128,12 +149,12 @@ class HojaCargo:
 
     def generar_hojas_cargo(self, year, month, day):
         flag = False
-        for medico in Medico.objects.all():
-            consultas = medico.consulta_set.filter(fecha__year=year, fecha__month=month, fecha__day=day)
+        for especialidad in Especialidad.objects.all():
+            consultas = especialidad.consulta_set.filter(fecha__year=year, fecha__month=month, fecha__day=day)
             if consultas:
                 if flag:
                     self.content.append(PageBreak())
-                hoja = HojaCargoPorMedico(consultas)
+                hoja = HojaCargoPorTipoConsulta(consultas)
                 self.content.extend(hoja.content)
                 flag = True
 
