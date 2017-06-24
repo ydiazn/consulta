@@ -14,14 +14,8 @@
             {% now 'd' as day %}
             <a href="{% url 'consulta:consulta_por_fecha' year=year|add:'0' month=month|add:'0' day=day|add:'0' %}">Consultas</a>
         </li>
-        <!--<li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Modelos
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Registro de pacientes atendidos</a></li>
-                <li><a href="#">Certificado médico</a></li>
-                <li><a href="#">Certificado de tratamiento con medicamentos controlados por tarjeta</a></li>
-            </ul>
-        </li>-->
+        <li class="dropdown">
+            <a href="{% url 'admin:index' %}">Administración</a>
+        </li>
     </ul>
 </div>
