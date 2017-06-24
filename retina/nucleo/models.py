@@ -1,3 +1,5 @@
+# -*- encoding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from django.db import models
 
 
@@ -9,6 +11,9 @@ class Especialidad(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name_plural = 'Especialidades'
+
 
 class Medico(models.Model):
     nombres = models.CharField(max_length=40)
@@ -19,6 +24,9 @@ class Medico(models.Model):
     def __unicode__(self):
         return "%s %s %s" % (self.nombres, self.primer_apellido, self.segundo_apellido)
 
+    class Meta:
+        verbose_name = 'Médico'
+
 
 class UnidadAsistencial(models.Model):
     nombre = models.CharField(max_length=45, unique=True)
@@ -26,14 +34,21 @@ class UnidadAsistencial(models.Model):
 
     def __unicode__(self):
         return self.nombre
+    
+    class Meta:
+        verbose_name = 'Unidad asistencial'
+        verbose_name_plural = 'Unidades asistenciales'
 
 
 class Diagnostico(models.Model):
-    nombre = models.CharField(max_length=45, unique=True)
+    nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True)
 
     def __unicode__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name = 'Diagnóstico'
 
 
 class Conducta(models.Model):
@@ -76,6 +91,10 @@ class AreaSalud(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name = 'Área de salud'
+        verbose_name_plural = 'Áreas de salud'
+
 
 # Medicina natural tradicional
 class MNT(models.Model):
@@ -92,6 +111,9 @@ class Enfermedad(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name_plural = 'Enfermedades'
 
 
 class CriterioClasificacionEnfermedad(models.Model):
