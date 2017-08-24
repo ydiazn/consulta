@@ -1,0 +1,21 @@
+.row-odd{
+}
+
+/* listado de pacientes */
+.patient-item{
+    margin-bottom: 50px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.patient-address{
+    padding-left:1%;
+}
+
+.fa-toggle-on, .fa-toggle-off {
+    color:#337ab7;
+}
+
+.consulta-general-item-info{
+    margin-bottom: 10px;
+}

@@ -1,0 +1,62 @@
+{% extends 'listar_div.html' %}
+
+{% block header %}
+
+<div class="row page-header">
+    <div class="col-sm-3">
+        <h3>Listado de pacientes</h3>
+    </div>
+    <div class="col-sm-9" style="text-align:right;margin-bottom:50px">
+        <a class="btn btn-primary" href="{% url 'consulta:adicionar_paciente' %}" data-rel="tooltip" title="Adicionar paciente">
+           <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+{% endblock header %}
+
+{% block listado %}
+
+<div class="row">
+    <div class="col-sm-3">
+        <span class="badge">No. HC {{ object.numero_historia_clinica }}</span>
+        <span class="badge">No. CI {{ object.ci }}</span>
+    </div>
+    <div class="col-sm-3">
+        <a class="blue" href="{% url 'consulta:editar_paciente' pk=object.pk %}" data-rel="tooltip" title="Editar">
+           <i class="fa fa-pencil"></i>
+        </a>
+        <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
+           <i class="fa fa-trash"></i>
+        </a>
+    </div>
+    <div class="col-sm-6" style="text-align:right">
+        <span><strong>Area de salud: </strong> {{ object.area_salud }} | </span>
+        <span><strong>Sexo: </strong> 
+        {% if object.sexo == 'F' %} 
+            <i class="fa fa-female"></i>
+        {% else %}
+            <i class="fa fa-male"></i>
+        {% endif %}
+        | </span>
+        <span><strong>Edad: </strong> {{ object.edad }}</span>
+    </div>
+</div>
+<div class="row">
+    <h3 class="patient-address">
+        {{object.nombres}} {{ object.primer_apellido }} {{ object.segundo_apellido }}
+    </h3>
+</div>
+<div class="row">
+    <div class="col-sm-5">
+        <span><strong>Dirección: </strong> 
+            {{ object.direccion }}, {{ object.area_salud.municipio }}, {{ object.area_salud.municipio.provincia }}
+        </span>
+    </div>
+    <div class="col-sm-7" style="text-align:right">
+        <span><strong>Ocupación actual: </strong> {{ object.ocupacion }} | </span>
+        <span><strong>Centro Trabajo: </strong> {{ object.centro_trabajo }}</span>
+    </div>
+</div>
+
+{% endblock listado %}

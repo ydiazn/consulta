@@ -85,7 +85,7 @@ class EliminarPacienteView(DeleteView):
 class ListarPacienteView(ListView):
 
     model = Paciente
-    template_name = 'consulta/paciente_listar.html'
+    template_name = 'consulta/paciente_listar_div.html'
 
     def get_context_data(self, **kwargs):
         context = super(ListarPacienteView, self).get_context_data(**kwargs)
@@ -142,7 +142,7 @@ class ConsultaPorFechaView(DayArchiveView):
 
     queryset = Consulta.objects.all()
     date_field = "fecha"
-    template_name = 'consulta/consulta_por_fecha.html'
+    template_name = 'consulta/consulta_por_fecha_div.html'
     month_format = "%m"
     allow_empty = True
 
