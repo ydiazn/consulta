@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-sm-4">
+        <h4>General</h4>
+        <div class="row consulta-general-item-info">            
+            <div class="col-sm-8">
+                <span class="badge">No. HC {{ object.paciente.ci }}</span>
+            </div>
+            <div class="col-sm-4">
+                <span><i class="fa fa-stethoscope"></i> {{ object.especialidad }}</span>
+            </div>
+        </div>
+        <div class="row consulta-general-item-info">
+            <div class="col-sm-8">
+                <span><i class="fa fa-bed"></i> {{object.paciente.nombres}} {{ object.paciente.primer_apellido }} {{ object.paciente.segundo_apellido }}</span>
+            </div>
+            <div class="col-sm-4">
+                <span><i class="fa fa-clock-o"></i> {{ object.fecha.time }} </span>
+                {% if object.caso_nuevo %} 
+                    <i class="fa fa-toggle-on"></i> 
+                {% else %}
+                    <i class="fa fa-toggle-off"></i>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row consulta-general-item-info"> 
+            <div class="col-sm-12">          
+                <span><i class="fa fa-user-md"></i> {{ object.medico }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="col-sm-6">
+            <h4>Diagnóstico</h4>
+            <ul class="list-group">
+            {% for diag in object.diagnostico.all %}
+                <li class="list-group-item list-group-item-info">{{diag}}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-5">
+            <h4>Mnt</h4>
+            <ul class="list-group">
+            {% for mnt in object.mnt.all %}
+                <li class="list-group-item list-group-item-info">{{mnt.nombre}}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-1">
+            <a class="blue" href="{% url 'consulta:editar_consulta' pk=object.pk %}" data-rel="tooltip" title="Editar">
+               <i class="fa fa-pencil"></i>
+            </a>
+            <a class="blue" href="{% url 'consulta:eliminar_consulta' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
+               <i class="fa fa-trash"></i>
+            </a>
+        </div>
+    </div>
+</div>

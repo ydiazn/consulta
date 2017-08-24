@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import DayArchiveView
@@ -81,6 +82,14 @@ class EliminarPacienteView(DeleteView):
         )
         return context
 
+
+class ListarConsultaPorPacienteView(ListView):
+    model = Consulta
+    template_name = 'consulta/consulta_por_paciente_div.html'
+
+    def get_queryset(self):
+        paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
+        return paciente.consulta_set.all()
 
 class ListarPacienteView(ListView):
 

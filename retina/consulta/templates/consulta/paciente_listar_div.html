@@ -19,7 +19,7 @@
 
 <div class="row">
     <div class="col-sm-3">
-        <span class="badge">No. HC {{ object.numero_historia_clinica }}</span>
+        <span class="badge">No. {{ forloop.count }}</span>
         <span class="badge">No. CI {{ object.ci }}</span>
     </div>
     <div class="col-sm-3">
@@ -28,6 +28,9 @@
         </a>
         <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
            <i class="fa fa-trash"></i>
+        </a>
+        <a class="blue" href="{% url 'consulta:listar_consulta_por_paciente' pk=object.pk %}" data-rel="tooltip" title="Consultas">
+           <i class="fa fa-medkit"></i>
         </a>
     </div>
     <div class="col-sm-6" style="text-align:right">

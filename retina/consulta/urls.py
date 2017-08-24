@@ -39,6 +39,11 @@ urlpatterns = [
         name='editar_consulta'
     ),
     url(
+        r'^listar/consulta_por_paciente/(?P<pk>\w+)/$',
+        ListarConsultaPorPacienteView.as_view(),
+        name='listar_consulta_por_paciente'
+    ),
+    url(
         r'^consulta_por_fecha/(?P<year>[0-9]{4})/(?P<month>[-\w]+)/(?P<day>[0-9]+)$',
         ConsultaPorFechaView.as_view(),
         name='consulta_por_fecha'
