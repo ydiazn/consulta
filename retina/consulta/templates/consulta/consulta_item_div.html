@@ -11,7 +11,9 @@
         </div>
         <div class="row consulta-general-item-info">
             <div class="col-sm-8">
+                {% block extra_data %}
                 <span><i class="fa fa-bed"></i> {{object.paciente.nombres}} {{ object.paciente.primer_apellido }} {{ object.paciente.segundo_apellido }}</span>
+                {% endblock extra_data %}
             </div>
             <div class="col-sm-4">
                 <span><i class="fa fa-clock-o"></i> {{ object.fecha.time }} </span>
