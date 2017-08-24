@@ -54,8 +54,12 @@
         </span>
     </div>
     <div class="col-sm-7" style="text-align:right">
-        <span><strong>Ocupación actual: </strong> {{ object.ocupacion }} | </span>
-        <span><strong>Centro Trabajo: </strong> {{ object.centro_trabajo }}</span>
+        {% if object.ocupacion %}
+            <span><strong>Ocupación actual: </strong> {{ object.ocupacion }} | </span>
+        {% endif %}
+        {% if object.ocupacion %}
+            <span><strong>Centro Trabajo: </strong> {{ object.centro_trabajo }}</span>
+        {% endif %}
     </div>
 </div>
 
