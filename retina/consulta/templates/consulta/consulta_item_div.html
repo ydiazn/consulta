@@ -3,7 +3,9 @@
         <h4>General</h4>
         <div class="row consulta-general-item-info">            
             <div class="col-sm-8">
+                {% block historia_clinica %}
                 <span class="badge">No. HC {{ object.paciente.ci }}</span>
+                {% endblock historia_clinica %}
             </div>
             <div class="col-sm-4">
                 <span><i class="fa fa-stethoscope"></i> {{ object.especialidad }}</span>
@@ -12,7 +14,7 @@
         <div class="row consulta-general-item-info">
             <div class="col-sm-8">
                 {% block extra_data %}
-                <span><i class="fa fa-bed"></i> {{object.paciente.nombres}} {{ object.paciente.primer_apellido }} {{ object.paciente.segundo_apellido }}</span>
+                <span><i class="fa fa-user-md"></i> {{ object.medico }}</span>
                 {% endblock extra_data %}
             </div>
             <div class="col-sm-4">
@@ -24,11 +26,13 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row consulta-general-item-info"> 
+        {% block paciente %}
+        <div class="row consulta-general-item-info">
             <div class="col-sm-12">          
-                <span><i class="fa fa-user-md"></i> {{ object.medico }}</span>
+                <span><i class="fa fa-bed"></i> {{object.paciente.nombres}} {{ object.paciente.primer_apellido }} {{ object.paciente.segundo_apellido }}</span>
             </div>
         </div>
+        {% endblock paciente %}
     </div>
     <div class="col-sm-8">
         <div class="col-sm-6">
