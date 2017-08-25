@@ -3,10 +3,10 @@
 {% block header %}
 
 <div class="row page-header">
-    <div class="col-sm-3">
-        <h3>Listado de pacientes</h3>
+    <div class="col-sm-8">
+        <h3>Consultas por fecha ({{day}})</h3>
     </div>
-    <div class="col-sm-9" style="text-align:right;margin-bottom:50px">
+    <div class="col-sm-4" style="text-align:right;margin-bottom:50px">
         <a class="btn btn-primary" href="{% url 'consulta:adicionar_consulta' %}" data-rel="tooltip" title="Adicionar consulta">
            <i class="fa fa-plus"></i>
         </a>
