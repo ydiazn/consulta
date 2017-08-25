@@ -6,11 +6,28 @@
     <div class="col-sm-3">
         <h3>Listado de pacientes</h3>
     </div>
-    <div class="col-sm-9" style="text-align:right;margin-bottom:50px">
+    <div class="col-sm-9" style="text-align:right;">
         <a class="btn btn-primary" href="{% url 'consulta:adicionar_paciente' %}" data-rel="tooltip" title="Adicionar paciente">
            <i class="fa fa-plus"></i>
         </a>
     </div>
+</div>
+
+<div id="buscar_paciente_block" style="margin-bottom:20px">
+    <form action="" method="get">
+        <div class="form-group">
+            <div id="patient-search-form-group" class="input-group">
+                <span class="input-group-btn">
+                    <button id="search-button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </span>       
+                <input id="criterio_busqueda" class="col-sm-6" type="text" name="criterio_busqueda" placeholder="Escriba para buscar paciente y presione enter" value="{{ criterio_busqueda }}"/>
+                {% if object_list %}
+                    <span class="badge"><i class="fa fa-thumbs-up"></i> {{ object_list.count }}</span>
+                {% endif %}
+            </div>
+            <input id="submit" type="submit" value="Buscar" style="display:none"/>
+        </div>
+    </form>
 </div>
 
 {% endblock header %}
@@ -19,8 +36,7 @@
 
 <div class="row">
     <div class="col-sm-3">
-        <span class="badge">No. {{ forloop.count }}</span>
-        <span class="badge">No. CI {{ object.ci }}</span>
+        <span class="badge"><i class="fa fa-credit-card"></i> {{ object.ci }}</span>
     </div>
     <div class="col-sm-3">
         <a class="blue" href="{% url 'consulta:editar_paciente' pk=object.pk %}" data-rel="tooltip" title="Editar">

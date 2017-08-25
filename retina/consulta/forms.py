@@ -44,3 +44,7 @@ class ConsultaForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
         self.fields['caso_nuevo'].widget.attrs['class'] = ""
 
+
+class BuscarPacienteForm(forms.Form):
+    criterio_busqueda = forms.CharField(label='Criterio de busqueda', max_length=100)
+

@@ -3,7 +3,7 @@
 
 /* listado de pacientes */
 .patient-item{
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     border-bottom: 2px solid #ccc;
     padding-bottom: 5px;
 }
@@ -18,4 +18,23 @@
 
 .consulta-general-item-info{
     margin-bottom: 10px;
+}
+
+#patient-search-form-group {
+    text-align: right;
+}
+
+#search-button {
+    padding-left: 15px;
+    padding-right: 15px;
+    height:40px;
+    border:none;
+}
+
+#criterio_busqueda {
+    border: 2px solid #eee;
+    border-radius: 0px 5px 5px 0px;
+    height:40px;
+    min-width: 40pt;
+    display:inline;
 }

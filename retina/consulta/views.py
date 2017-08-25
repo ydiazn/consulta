@@ -5,10 +5,12 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import DayArchiveView
+from django.db.models import Q
 from consulta.models import Paciente, Consulta
-from consulta.forms import PacienteForm, ConsultaForm
+from consulta.forms import PacienteForm, ConsultaForm, BuscarPacienteForm
 from datetime import date
 from helpers import RegistroPacientesWorkbook
 from io import BytesIO
@@ -83,17 +85,10 @@ class EliminarPacienteView(DeleteView):
         return context
 
 
-class ListarConsultaPorPacienteView(ListView):
-    model = Consulta
-    template_name = 'consulta/consulta_por_paciente_div.html'
-
-    def get_queryset(self):
-        paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
-        return paciente.consulta_set.all()
-
 class ListarPacienteView(ListView):
 
     model = Paciente
+    queryset = Paciente.objects.all()[:5]
     template_name = 'consulta/paciente_listar_div.html'
 
     def get_context_data(self, **kwargs):
@@ -101,17 +96,48 @@ class ListarPacienteView(ListView):
         context.update(
             {
                 'campos':
-                    (
-                        'no. HC',
-                        'nombre y apellidos',
-                        'edad',
-                        'sexo',
-                        'área de salud'
-                    ),
-                'menu': 'paciente'
+                (
+                    'no. HC',
+                    'nombre y apellidos',
+                    'edad',
+                    'sexo',
+                    'área de salud'
+                ),
+                'menu': 'paciente',
+                'criterio_busqueda': self.criterio_busqueda
             }
         )
         return context
+
+    def get(self, request, *args, **kwargs):
+        self.criterio_busqueda = request.GET.get('criterio_busqueda', '')
+        if(self.criterio_busqueda):
+            self.queryset = self.filtrar_pacientes()
+
+        return super(ListarPacienteView, self).get(request, *args, **kwargs)
+
+    def filtrar_pacientes(self):
+        filtro = Q()
+        criterios = self.criterio_busqueda.split()
+
+        for criterio in criterios:
+            filtro = (
+                filtro | 
+                Q(nombres__icontains=criterio) |
+                Q(primer_apellido__icontains=criterio) |
+                Q(segundo_apellido__icontains=criterio)
+            )
+
+        return Paciente.objects.filter(filtro)
+
+
+class ListarConsultaPorPacienteView(ListView):
+    model = Consulta
+    template_name = 'consulta/consulta_por_paciente_div.html'
+
+    def get_queryset(self):
+        paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
+        return paciente.consulta_set.all()
 
 
 class ModificarConsultaMixin(object):
