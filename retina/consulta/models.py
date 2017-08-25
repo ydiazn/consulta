@@ -59,7 +59,7 @@ class Consulta(models.Model):
     mnt = models.ManyToManyField(MNT)
 
     class Meta:
-        ordering = ('fecha',)
+        ordering = ('-fecha',)
 
     def __unicode__(self):
         return "No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)
