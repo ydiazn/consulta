@@ -58,5 +58,8 @@ class Consulta(models.Model):
     conducta = models.ForeignKey(Conducta)
     mnt = models.ManyToManyField(MNT)
 
+    class Meta:
+        ordering = ('fecha',)
+
     def __unicode__(self):
         return "No. HC: %s( %s )-%s" % (self.paciente.numero_historia_clinica, self.paciente, self.fecha)
