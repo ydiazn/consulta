@@ -38,3 +38,9 @@
     min-width: 40pt;
     display:inline;
 }
+
+/*Formulario*/
+
+#id_direccion{
+    height: 100px;
+}

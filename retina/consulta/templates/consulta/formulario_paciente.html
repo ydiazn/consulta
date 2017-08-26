@@ -1,0 +1,125 @@
+{% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{ error|lower|capfirst  }}
+    </div>
+{% endfor %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{% block form-panel-heading %}Entre los datos{% endblock form-panel-heading %}</div>
+    <div class="panel-body">
+        <form role='form' action='' method='post' >
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="{{ form.nombres.id_for_label }}">Nombres</label>
+                        {{ form.nombres }}
+                        {% for error in form.nombres.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.primer_apellido.id_for_label }}">Primer apellido</label>
+                        {{ form.primer_apellido }}
+                        {% for error in form.primer_apellido.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.segundo_apellido.id_for_label }}">Segundo apellido</label>
+                        {{ form.segundo_apellido }}
+                        {% for error in form.segundo_apellido.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.ci.id_for_label }}">CI</label>
+                        {{ form.ci }}
+                        {% for error in form.ci.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="{{ form.sexo.id_for_label }}">Sexo</label>
+                        {{ form.sexo }}
+                        {% for error in form.sexo.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de nacimiento</label>
+                        {{ form.fecha_nacimiento }}
+                        {% for error in form.fecha_nacimiento.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>                     
+                    <div class="form-group">
+                        <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+                        {{ form.direccion }}
+                        {% for error in form.direccion.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="{{ form.area_salud.id_for_label }}">Área de salud</label>
+                        {{ form.area_salud }}
+                        {% for error in form.area_salud.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.ocupacion.id_for_label }}">Ocupación</label>
+                        {{ form.ocupacion }}
+                        {% for error in form.ocupacion.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.centro_trabajo.id_for_label }}">Centro de trabajo</label>
+                        {{ form.centro_trabajo }}
+                        {% for error in form.centro_trabajo.errors %}
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error|lower|capfirst  }}
+                        </div>
+                        {% endfor %}
+                    </div>             
+                </div>
+            </div>
+            <div style="text-align:right;">
+            <button type="submit" class="btn btn-default">Aceptar</button>
+            </div>
+    </form>
+    </div>
+</div>
