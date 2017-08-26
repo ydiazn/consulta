@@ -15,81 +15,59 @@ from datetime import date
 from helpers import RegistroPacientesWorkbook
 from io import BytesIO
 from consulta.pdfprint import HojaCargo
+from mixin import MenuContextDataMixin
 
 # Create your views here.
 
 
 # Paciente
-class DetallePacienteView(DetailView):
+class DetallePacienteView(MenuContextDataMixin, DetailView):
 
     model = Paciente
     template_name = 'consulta/paciente_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(DetallePacienteView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'paciente'
-            }
-        )
-        return context
+    menu = 'paciente'
 
 
-class AdicionarPacienteView(CreateView):
+class AdicionarPacienteView(MenuContextDataMixin, CreateView):
 
     model = Paciente
     template_name = 'consulta/paciente_adicionar.html'
     form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
-
-    def get_context_data(self, **kwargs):
-        context = super(AdicionarPacienteView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'paciente'
-            }
-        )
-        return context
+    menu = 'paciente'
 
 
-class EditarPacienteView(UpdateView):
+class EditarPacienteView(MenuContextDataMixin, UpdateView):
 
     model = Paciente
     template_name = 'consulta/paciente_editar.html'
     form_class = PacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
-
-    def get_context_data(self, **kwargs):
-        context = super(EditarPacienteView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'paciente'
-            }
-        )
-        return context
+    menu = 'paciente'
 
 
-class EliminarPacienteView(DeleteView):
+class EliminarPacienteView(MenuContextDataMixin, DeleteView):
 
     model = Paciente
     success_url = reverse_lazy('consulta:listar_paciente')
+    menu = 'paciente'
 
     def get_context_data(self, **kwargs):
         context = super(EliminarPacienteView, self).get_context_data(**kwargs)
         context.update(
             {
                 'url_cancelar': reverse('consulta:listar_paciente'),
-                'menu': 'paciente'
             }
         )
         return context
 
 
-class ListarPacienteView(ListView):
+class ListarPacienteView(MenuContextDataMixin, ListView):
 
     model = Paciente
     queryset = Paciente.objects.all()[:5]
     template_name = 'consulta/paciente_listar_div.html'
+    menu = 'paciente'
 
     def get_context_data(self, **kwargs):
         context = super(ListarPacienteView, self).get_context_data(**kwargs)
@@ -103,7 +81,6 @@ class ListarPacienteView(ListView):
                     'sexo',
                     'área de salud'
                 ),
-                'menu': 'paciente',
                 'criterio_busqueda': self.criterio_busqueda
             }
         )
@@ -131,9 +108,10 @@ class ListarPacienteView(ListView):
         return Paciente.objects.filter(filtro)
 
 
-class ListarConsultaPorPacienteView(ListView):
+class ListarConsultaPorPacienteView(MenuContextDataMixin, ListView):
     model = Consulta
     template_name = 'consulta/consulta_por_paciente_div.html'
+    menu = 'consulta'
 
     def get_queryset(self):
         self.paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
@@ -143,7 +121,6 @@ class ListarConsultaPorPacienteView(ListView):
         context = super(ListarConsultaPorPacienteView, self).get_context_data(**kwargs)
         context.update(
             {
-                'menu': 'consulta',
                 'paciente': self.paciente
             }
         )
@@ -159,38 +136,22 @@ class ModificarConsultaMixin(object):
             'day': self.object.fecha.day,
         })    
 
-    def get_context_data(self, **kwargs):
-        context = super(ModificarConsultaMixin, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'consulta'
-            }
-        )
-        return context
 
-
-class AdicionarConsultaView(ModificarConsultaMixin, CreateView):
+class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, CreateView):
 
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaForm
+    menu = 'consulta'
 
 
-class AdicionarConsultaPacienteView(CreateView):
+class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
 
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaPacienteForm
     success_url = reverse_lazy('consulta:listar_paciente')
-        
-    def get_context_data(self, **kwargs):
-        context = super(AdicionarConsultaPacienteView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'menu': 'paciente'
-            }
-        )
-        return context
+    menu = 'paciente'
 
     def get_form_kwargs(self):
         kwargs = super(AdicionarConsultaPacienteView, self).get_form_kwargs()
@@ -201,48 +162,50 @@ class AdicionarConsultaPacienteView(CreateView):
 
 
 
-class EditarConsultaView(ModificarConsultaMixin, UpdateView):
+class EditarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, UpdateView):
 
     model = Consulta
     template_name = 'consulta/consulta_editar.html'
     form_class = ConsultaForm
+    menu = 'consulta'
 
 
-class EditarConsulta2View(UpdateView):
+class EditarConsulta2View(MenuContextDataMixin, UpdateView):
 
     model = Consulta
     template_name = 'consulta/consulta_editar.html'
     form_class = ConsultaForm
+    menu = 'consulta'
     
     def get_success_url(self):
         return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk}) 
 
 
-class ConsultaPorFechaView(DayArchiveView):
+class ConsultaPorFechaView(MenuContextDataMixin, DayArchiveView):
 
     queryset = Consulta.objects.all()
     date_field = "fecha"
     template_name = 'consulta/consulta_por_fecha_div.html'
     month_format = "%m"
     allow_empty = True
+    menu = 'consulta'
 
     def get_context_data(self, **kwargs):
         context = super(ConsultaPorFechaView, self).get_context_data(**kwargs)
         context.update(
             {
                 'campos':
-                    (
-                        'tipo',                        
-                        'no. HC',
-                        'nombre y apellidos',
-                        'diagnóstico',
-                        'conducta',
-                        'MNT',
-                        'medico',
-                        'hora',
-                        'nuevo?',
-                    ),
-                'menu': 'consulta'
+                (
+                    'tipo',                        
+                    'no. HC',
+                    'nombre y apellidos',
+                    'diagnóstico',
+                    'conducta',
+                    'MNT',
+                    'medico',
+                    'hora',
+                    'nuevo?',
+                )
             }
         )
         return context
@@ -254,16 +217,16 @@ class EliminarConsultaContextDataMixin(object):
         context = super(EliminarConsultaContextDataMixin, self).get_context_data(**kwargs)
         context.update(
             {
-                'url_cancelar': self.success_url,
-                'menu': 'consulta'
+                'url_cancelar': self.success_url
             }
         )
         return context
 
 
-class EliminarConsultaView(EliminarConsultaContextDataMixin, DeleteView):
+class EliminarConsultaView(MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
 
     model = Consulta
+    menu = "consulta"
 
     def get_object(self):
         object = super(EliminarConsultaView, self).get_object()
@@ -278,9 +241,10 @@ class EliminarConsultaView(EliminarConsultaContextDataMixin, DeleteView):
         return object
 
 
-class EliminarConsulta2View(EliminarConsultaContextDataMixin, DeleteView):
+class EliminarConsulta2View(MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
 
     model = Consulta
+    menu = "consulta"
 
     def get_success_url(self):
         return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk})
