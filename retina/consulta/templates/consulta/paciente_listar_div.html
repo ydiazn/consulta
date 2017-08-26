@@ -45,9 +45,11 @@
         <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
            <i class="fa fa-trash"></i>
         </a>
+        {% if object.consulta_set.all %}
         <a class="blue" href="{% url 'consulta:listar_consulta_por_paciente' pk=object.pk %}" data-rel="tooltip" title="Consultas">
            <i class="fa fa-medkit"></i>
         </a>
+        {% endif %}
     </div>
     <div class="col-sm-6" style="text-align:right">
         <span><strong>Area de salud: </strong> {{ object.area_salud }} | </span>
