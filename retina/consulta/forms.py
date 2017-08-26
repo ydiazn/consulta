@@ -53,13 +53,22 @@ class ConsultaPacienteForm(ConsultaForm):
     def __init__(self, *args, **kwargs):
         self.paciente = kwargs.pop('paciente')
         super(ConsultaPacienteForm, self).__init__(*args, **kwargs)
+        if self.paciente_ya_atendido():
+            self.fields.pop('caso_nuevo')
 
     def save(self, commit=True):
         consulta = super(ConsultaPacienteForm, self).save(commit=False)
-        consulta.paciente = Paciente.objects.get(pk=2)
+        consulta.paciente = self.paciente
+
+        if self.paciente_ya_atendido():
+            consulta.caso_nuevo = False
+
         if commit:
             consulta.save()
             self.save_m2m()
 
         return consulta
+
+    def paciente_ya_atendido(self):
+        return self.paciente.consulta_set.all()
 
