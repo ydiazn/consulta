@@ -136,8 +136,18 @@ class ListarConsultaPorPacienteView(ListView):
     template_name = 'consulta/consulta_por_paciente_div.html'
 
     def get_queryset(self):
-        paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
-        return paciente.consulta_set.all()
+        self.paciente = get_object_or_404(Paciente, pk=self.kwargs['pk'])
+        return self.paciente.consulta_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ListarConsultaPorPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'consulta',
+                'paciente': self.paciente
+            }
+        )
+        return context
 
 
 class ModificarConsultaMixin(object):

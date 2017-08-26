@@ -5,8 +5,8 @@
 <div class="row page-header">
     <div class="col-sm-9">
         <h3>Consultas por paciente</h3>
-        <span class="badge">No. HC {{ object_list.first.paciente.ci }}</span>
-        <h4><i class="fa fa-bed"></i> {{ object_list.first.paciente }} </h4>
+        <span class="badge">No. HC {{ paciente.ci }}</span>
+        <h4><i class="fa fa-bed"></i> {{ paciente }} </h4>
     </div>
     <div class="col-sm-3" style="text-align:right;margin-bottom:50px">
         <a class="btn btn-primary" href="{% url 'consulta:adicionar_consulta' %}" data-rel="tooltip" title="Adicionar consulta">
