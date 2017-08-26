@@ -160,6 +160,17 @@ class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
         })
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarConsultaPacienteView, self).get_context_data(**kwargs)
+        paciente = get_object_or_404(Paciente, pk=self.kwargs['paciente'])
+        context.update(
+            {
+                'caso_nuevo': not paciente.consulta_set.all(),
+                'paciente': paciente
+            }
+        )
+        return context
+
 
 
 class EditarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, UpdateView):

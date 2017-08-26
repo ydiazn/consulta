@@ -12,19 +12,21 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="{{ form.especialidad.id_for_label }}">Especialidad</label>
-                        {{ form.especialidad }}
-                        {% for error in form.especialidad.errors %}
+                        {% if not caso_nuevo %}
+                        <label for="{{ form.paciente.id_for_label }}">Paciente</label>
+                        {{ form.paciente }}
+                        {% for error in form.paciente.errors %}
                         <div class="alert alert-danger">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             {{ error|lower|capfirst  }}
                         </div>
                         {% endfor %}
+                        {% endif %}
                     </div>
                     <div class="form-group">
-                        <label for="{{ form.paciente.id_for_label }}">Paciente</label>
-                        {{ form.paciente }}
-                        {% for error in form.paciente.errors %}
+                        <label for="{{ form.especialidad.id_for_label }}">Especialidad</label>
+                        {{ form.especialidad }}
+                        {% for error in form.especialidad.errors %}
                         <div class="alert alert-danger">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             {{ error|lower|capfirst  }}
@@ -95,7 +97,8 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <div class="form-group">
+                    {% if caso_nuevo %}
+                    <div class="form-glockroup">
                         <label for="{{ form.caso_nuevo.id_for_label }}">Caso nuevo</label>
                         {{ form.caso_nuevo }}
                         {% for error in form.caso_nuevo.errors %}
@@ -104,7 +107,8 @@
                             {{ error|lower|capfirst  }}
                         </div>
                         {% endfor %}
-                    </div>             
+                    </div>
+                    {% endif %}             
                 </div>
             </div>
             <div style="text-align:right;">

@@ -4,6 +4,10 @@
 
 <div class="page-header">
     <h3>Adicionar consulta</h3>
+    {% if not caso_nuevo %}
+        <span class="badge">No. HC {{ paciente.ci }}</span>
+        <h4><i class="fa fa-bed"></i> {{ paciente }} </h4>
+    {% endif %}
 </div>
 
 {% include 'consulta/formulario_consulta.html' %}
