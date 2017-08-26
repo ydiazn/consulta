@@ -52,12 +52,14 @@
             </ul>
         </div>
         <div class="col-sm-1">
+            {% block consulta_acciones %}
             <a class="blue" href="{% url 'consulta:editar_consulta' pk=object.pk %}" data-rel="tooltip" title="Editar">
                <i class="fa fa-pencil"></i>
             </a>
             <a class="blue" href="{% url 'consulta:eliminar_consulta' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
                <i class="fa fa-trash"></i>
             </a>
+            {% endblock consulta_acciones %}
         </div>
     </div>
 </div>

@@ -39,6 +39,11 @@ urlpatterns = [
         name='editar_consulta'
     ),
     url(
+        r'^editar/consulta2/(?P<pk>\w+)/$',
+        EditarConsulta2View.as_view(),
+        name='editar_consulta2'
+    ),
+    url(
         r'^listar/consulta_por_paciente/(?P<pk>\w+)/$',
         ListarConsultaPorPacienteView.as_view(),
         name='listar_consulta_por_paciente'
@@ -52,6 +57,11 @@ urlpatterns = [
         r'^eliminar/consulta/(?P<pk>\w+)/$',
         EliminarConsultaView.as_view(),
         name='eliminar_consulta'
+    ),
+    url(
+        r'^eliminar/consulta2/(?P<pk>\w+)/$',
+        EliminarConsulta2View.as_view(),
+        name='eliminar_consulta2'
     ),
     url(
         r'^registro_pacientes/(?P<year>[0-9]{4})/(?P<month>[-\w]+)/(?P<day>[0-9]+)$',

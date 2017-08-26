@@ -173,6 +173,16 @@ class EditarConsultaView(ModificarConsultaMixin, UpdateView):
     form_class = ConsultaForm
 
 
+class EditarConsulta2View(UpdateView):
+
+    model = Consulta
+    template_name = 'consulta/consulta_editar.html'
+    form_class = ConsultaForm
+    
+    def get_success_url(self):
+        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk})  
+
+
 class ConsultaPorFechaView(DayArchiveView):
 
     queryset = Consulta.objects.all()
@@ -203,13 +213,26 @@ class ConsultaPorFechaView(DayArchiveView):
         return context
 
 
-class EliminarConsultaView(DeleteView):
+class EliminarConsultaContextDataMixin(object):
+    
+    def get_context_data(self, **kwargs):
+        context = super(EliminarConsultaContextDataMixin, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'url_cancelar': self.success_url,
+                'menu': 'consulta'
+            }
+        )
+        return context
+
+
+class EliminarConsultaView(EliminarConsultaContextDataMixin, DeleteView):
 
     model = Consulta
 
     def get_object(self):
         object = super(EliminarConsultaView, self).get_object()
-        self.redirect_url = reverse(
+        self.success_url = reverse(
                                 'consulta:consulta_por_fecha',
                                 kwargs={
                                     'year': object.fecha.year,
@@ -219,18 +242,13 @@ class EliminarConsultaView(DeleteView):
                             )
         return object
 
-    def get_success_url(self):
-        return self.redirect_url
 
-    def get_context_data(self, **kwargs):
-        context = super(EliminarConsultaView, self).get_context_data(**kwargs)
-        context.update(
-            {
-                'url_cancelar': self.redirect_url,
-                'menu': 'consulta'
-            }
-        )
-        return context
+class EliminarConsulta2View(EliminarConsultaContextDataMixin, DeleteView):
+
+    model = Consulta
+
+    def get_success_url(self):
+        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk})
 
 
 def registro_pacientes(request, year, month, day):
