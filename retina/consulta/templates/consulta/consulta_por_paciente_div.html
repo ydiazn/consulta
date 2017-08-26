@@ -36,3 +36,7 @@
 {% include 'consulta/consulta_por_paciente_item_div.html' %}
 
 {% endblock listado %}
+
+{% block object_list_empty %}
+    <div class="alert alert-info">Ningún resultado para este paciente.</div>
+{% endblock object_list_empty %}

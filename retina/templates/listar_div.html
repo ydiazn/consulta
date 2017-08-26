@@ -25,6 +25,8 @@
                     <div class="row patient-item {% cycle 'row-odd' 'row-odd1' %}"}>{% block listado %}{% endblock listado %}</div>
                 {% endfor %}
             </div>
+        {% else %}
+            {% block object_list_empty %}{% endblock object_list_empty %}
         {% endif %}
     </div>
 </div>
