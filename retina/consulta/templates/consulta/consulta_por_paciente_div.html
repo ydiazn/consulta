@@ -9,7 +9,7 @@
         <h4><i class="fa fa-bed"></i> {{ paciente }} </h4>
     </div>
     <div class="col-sm-3" style="text-align:right;margin-bottom:50px">
-        <a class="btn btn-primary" href="{% url 'consulta:adicionar_consulta' %}" data-rel="tooltip" title="Adicionar consulta">
+        <a class="btn btn-primary" href="{% url 'consulta:adicionar_consulta_paciente' paciente=paciente.pk %}" data-rel="tooltip" title="Adicionar consulta">
            <i class="fa fa-plus"></i>
         </a>
     </div>
@@ -38,5 +38,5 @@
 {% endblock listado %}
 
 {% block object_list_empty %}
-    <div class="alert alert-info">Ningún resultado para este paciente.</div>
+    <div class="alert alert-info">Ningún resultado para este paciente.  </div>
 {% endblock object_list_empty %}

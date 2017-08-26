@@ -34,6 +34,11 @@ urlpatterns = [
         name='adicionar_consulta'
     ),
     url(
+        r'^adicionar/consulta_paciente/(?P<paciente>\w+)/$',
+        AdicionarConsultaPacienteView.as_view(),
+        name='adicionar_consulta_paciente'
+    ),
+    url(
         r'^editar/consulta/(?P<pk>\w+)/$',
         EditarConsultaView.as_view(),
         name='editar_consulta'

@@ -45,9 +45,12 @@
         <a class="blue" href="{% url 'consulta:eliminar_paciente' pk=object.pk %}" data-rel="tooltip" title="Eliminar">
            <i class="fa fa-trash"></i>
         </a>
-        {% if object.consulta_set.all %}
-        <a class="blue" href="{% url 'consulta:listar_consulta_por_paciente' pk=object.pk %}" data-rel="tooltip" title="Consultas">
+        <a class="blue" href="{% url 'consulta:adicionar_consulta_paciente' paciente=object.pk %}" data-rel="tooltip" title="Realizar consulta">
            <i class="fa fa-medkit"></i>
+        </a>
+        {% if object.consulta_set.all %}
+        <a class="blue" href="{% url 'consulta:listar_consulta_por_paciente' pk=object.pk %}" data-rel="tooltip" title="Ver consultas">
+           <i class="fa fa-eye"></i>
         </a>
         {% endif %}
     </div>

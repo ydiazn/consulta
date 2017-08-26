@@ -45,6 +45,21 @@ class ConsultaForm(forms.ModelForm):
         self.fields['caso_nuevo'].widget.attrs['class'] = ""
 
 
-class BuscarPacienteForm(forms.Form):
-    criterio_busqueda = forms.CharField(label='Criterio de busqueda', max_length=100)
+class ConsultaPacienteForm(ConsultaForm):
+
+    class Meta(ConsultaForm.Meta):
+        exclude = ['paciente']
+
+    def __init__(self, *args, **kwargs):
+        self.paciente = kwargs.pop('paciente')
+        super(ConsultaPacienteForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        consulta = super(ConsultaPacienteForm, self).save(commit=False)
+        consulta.paciente = Paciente.objects.get(pk=2)
+        if commit:
+            consulta.save()
+            self.save_m2m()
+
+        return consulta
 

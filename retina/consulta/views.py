@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import DayArchiveView
 from django.db.models import Q
 from consulta.models import Paciente, Consulta
-from consulta.forms import PacienteForm, ConsultaForm, BuscarPacienteForm
+from consulta.forms import PacienteForm, ConsultaForm, ConsultaPacienteForm
 from datetime import date
 from helpers import RegistroPacientesWorkbook
 from io import BytesIO
@@ -176,6 +176,31 @@ class AdicionarConsultaView(ModificarConsultaMixin, CreateView):
     form_class = ConsultaForm
 
 
+class AdicionarConsultaPacienteView(CreateView):
+
+    model = Consulta
+    template_name = 'consulta/consulta_adicionar.html'
+    form_class = ConsultaPacienteForm
+    success_url = reverse_lazy('consulta:listar_paciente')
+        
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarConsultaPacienteView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'menu': 'paciente'
+            }
+        )
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(AdicionarConsultaPacienteView, self).get_form_kwargs()
+        kwargs.update({
+            "paciente": get_object_or_404(Paciente, pk=self.kwargs['paciente'])
+        })
+        return kwargs
+
+
+
 class EditarConsultaView(ModificarConsultaMixin, UpdateView):
 
     model = Consulta
@@ -190,7 +215,7 @@ class EditarConsulta2View(UpdateView):
     form_class = ConsultaForm
     
     def get_success_url(self):
-        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk})  
+        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk}) 
 
 
 class ConsultaPorFechaView(DayArchiveView):
