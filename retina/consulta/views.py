@@ -144,6 +144,16 @@ class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, Create
     form_class = ConsultaForm
     menu = 'consulta'
 
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarConsultaView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'caso_nuevo': True
+            }
+        )
+        return context
+
+
 
 class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
 

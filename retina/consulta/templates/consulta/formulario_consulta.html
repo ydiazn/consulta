@@ -11,8 +11,8 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-sm-4">
+                    {% if caso_nuevo %}
                     <div class="form-group">
-                        {% if not caso_nuevo %}
                         <label for="{{ form.paciente.id_for_label }}">Paciente</label>
                         {{ form.paciente }}
                         {% for error in form.paciente.errors %}
@@ -21,8 +21,8 @@
                             {{ error|lower|capfirst  }}
                         </div>
                         {% endfor %}
-                        {% endif %}
                     </div>
+                    {% endif %}
                     <div class="form-group">
                         <label for="{{ form.especialidad.id_for_label }}">Especialidad</label>
                         {{ form.especialidad }}
