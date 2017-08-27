@@ -34,18 +34,46 @@ LIST_STYLE = TableStyle([
 ]
 )
 
+LIST_STYLE_FOOTER = TableStyle([
+    ('GRID', (0,0), (-1,-1), 1, colors.black),
+    ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+    ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+    ('FONTSIZE', (0, 0), (-1, -1), 11),
+    ('FONTSIZE', (0,0), (0,0), 14),
+    ('BOTTOMPADDING', (0,0), (0,0), 10),
+    ('SPAN', (0,0), (1,0)),
+]
+)
+
 colWidths = [0.23*inch, .58*inch, 2.2*inch, .35*inch, .35*inch, 2.5*inch, 3.0*inch, 0.26*inch, 0.8*inch, 0.5*inch]
+col_foot_widths = [0.5*inch, 1.5*inch]
+
+TERMINOS_LEYENDA = [
+                        ['OI', 'ojo izquierdo'],
+                        ['OD', 'ojo derecho'],  
+                        ['AO', 'ambos ojos']
+                   ]
+
+def generate_leyenda(terminos, style=None, col_widths=None):
+    data = [['Leyenda', '']]
+    data.extend(terminos)
+
+    return Table(data, style=style, colWidths=col_widths)
 
 class HojaCargoPorMedicoSesion:
 
     def __init__(self, consultas):
         self.consultas = consultas
         self.stylesheet = getSampleStyleSheet()
+        self.content = []
 
     def generate_table(self):
         data = self.get_table_header()
         data.extend(self.get_table_data())
-        return Table(data, style=LIST_STYLE, colWidths=colWidths)
+        self.content.append(Table(data, style=LIST_STYLE, colWidths=colWidths))
+        self.content.append(Spacer(0, 0.5*inch))
+        self.content.append(generate_leyenda(TERMINOS_LEYENDA, style=LIST_STYLE_FOOTER, col_widths=col_foot_widths))
+        return self.content
 
     def get_table_header(self):
         year = self.consultas[0].fecha.year
@@ -64,6 +92,14 @@ class HojaCargoPorMedicoSesion:
             ['Unidad: %s' % unicode(self.consultas[0].unidad), '', '', '', '', '', '', 'Fecha: %s/%s/%s' % (day, month, year), '', ''],
             ['Consulta: %s' % unicode(self.consultas[0].especialidad), '', '', '', '', unicode('Médico: %s' % self.consultas[0].medico, 'utf-8'), '', sesion, '', ''],
             ['No.', 'HC', 'Paciente', 'E', 'S', unicode('Dirección', 'utf-8'), unicode('Diagnóstico', 'utf-8'), 'CN', 'CAS', 'MNT']
+        ]
+
+    def get_table_footer(self):
+        return [
+            ['Leyenda', ''],
+            ['OI', 'Ojo izquierdo'],
+            ['OD', 'Ojo derecho'],  
+            ['AO', 'Ambos ojos']
         ]
 
     def get_table_data(self):
@@ -113,12 +149,12 @@ class HojaCargoPorMedico:
     def add_hojas(self):
         if self.consultas_manana:
             hoja = HojaCargoPorMedicoSesion(self.consultas_manana)
-            self.content.append(hoja.generate_table())
+            self.content.extend(hoja.generate_table())
             if self.consultas_tarde:
                 self.content.append(PageBreak())
         if self.consultas_tarde:
             hoja = HojaCargoPorMedicoSesion(self.consultas_tarde)
-            self.content.append(hoja.generate_table())
+            self.content.extend(hoja.generate_table())
 
 
 class HojaCargoPorTipoConsulta:
