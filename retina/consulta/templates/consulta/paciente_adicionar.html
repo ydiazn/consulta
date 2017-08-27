@@ -21,11 +21,13 @@
 {% endblock stylesheet %}
 
 {% block script %}
-
+    <script src="{% static 'js/jquery.birthdateFromCI.js' %}"></script>
     {{ form.media.js }}
+
     <script>
         $('#id_area_salud').chosen();
-        $('#id_sexo').chosen()
+        $('#id_sexo').chosen();
+        $('#id_ci').BirthdateFromCI({'birthdate': $('#id_fecha_nacimiento')});
     </script>
 
 {% endblock script %}
