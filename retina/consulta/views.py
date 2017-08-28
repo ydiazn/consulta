@@ -16,6 +16,7 @@ from helpers import RegistroPacientesWorkbook
 from io import BytesIO
 from consulta.pdfprint import HojaCargo
 from mixin import MenuContextDataMixin
+from datetime import date, datetime
 
 # Create your views here.
 
@@ -134,7 +135,8 @@ class ModificarConsultaMixin(object):
             'year': self.object.fecha.year,
             'month': self.object.fecha.month,
             'day': self.object.fecha.day,
-        })    
+        })
+
 
 
 class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, CreateView):

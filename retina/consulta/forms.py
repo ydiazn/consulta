@@ -3,6 +3,7 @@
 from django import forms
 from models import Paciente, Consulta
 from widgets import DatePicker, DateTimePicker, ChosenInput, ChosenInputMultiple
+from datetime import datetime
 
 
 # Yusdanis Feus Pérez
@@ -43,6 +44,7 @@ class ConsultaForm(forms.ModelForm):
         for field in self.fields.itervalues():
             field.widget.attrs['class'] = 'form-control'
         self.fields['caso_nuevo'].widget.attrs['class'] = ""
+        self.fields['fecha'].initial = datetime.now()
 
 
 class ConsultaPacienteForm(ConsultaForm):

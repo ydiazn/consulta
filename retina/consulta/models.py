@@ -5,8 +5,9 @@ from django.db import models
 from nucleo.models import (
     AreaSalud, MNT, ClasificacionEnfermedad, Medico, UnidadAsistencial, Diagnostico, Conducta, Especialidad
 )
-from datetime import date
+from datetime import date, datetime
 from utils import historia_from_ci
+from django.utils import timezone
 
 # Create your models here.
 
@@ -52,7 +53,7 @@ class Consulta(models.Model):
     paciente = models.ForeignKey(Paciente)
     medico = models.ForeignKey(Medico)
     unidad = models.ForeignKey(UnidadAsistencial)
-    fecha = models.DateTimeField()
+    fecha = models.DateTimeField(timezone.now)
     caso_nuevo = models.BooleanField(default=True)
     diagnostico = models.ManyToManyField(Diagnostico)
     conducta = models.ForeignKey(Conducta)
