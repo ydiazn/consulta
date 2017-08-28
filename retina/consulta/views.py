@@ -17,6 +17,7 @@ from io import BytesIO
 from consulta.pdfprint import HojaCargo
 from mixin import MenuContextDataMixin
 from datetime import date, datetime
+from django.utils import timezone
 
 # Create your views here.
 
@@ -144,6 +145,7 @@ class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, Create
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaForm
+    initial = {'fecha': timezone.now()}
     menu = 'consulta'
 
     def get_context_data(self, **kwargs):
@@ -162,6 +164,7 @@ class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaPacienteForm
+    initial = {'fecha': timezone.now()}
     success_url = reverse_lazy('consulta:listar_paciente')
     menu = 'paciente'
 
