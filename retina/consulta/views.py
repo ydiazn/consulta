@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import DayArchiveView
 from django.db.models import Q
 from consulta.models import Paciente, Consulta
+from nucleo.models import Especialidad, Conducta, UnidadAsistencial, MNT
 from consulta.forms import PacienteForm, ConsultaForm, ConsultaPacienteForm
 from datetime import date
 from helpers import RegistroPacientesWorkbook
@@ -139,13 +140,22 @@ class ModificarConsultaMixin(object):
         })
 
 
+# Requiere refactorización para los campos excepto fecha
+
+INITIAL_CONSULTA_FORM_DATA = {
+        'fecha': timezone.now(),
+        'especialidad': Especialidad.objects.get(nombre='Retina'),
+        'conducta': Conducta.objects.get(nombre='Tratamiento'),
+        'mnt': [MNT.objects.get(abreviatura='ONN')],
+        'unidad': UnidadAsistencial.objects.all().first(),
+    }
 
 class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, CreateView):
-
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaForm
-    initial = {'fecha': timezone.now()}
+    initial = INITIAL_CONSULTA_FORM_DATA
+    
     menu = 'consulta'
 
     def get_context_data(self, **kwargs):
@@ -164,7 +174,7 @@ class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaPacienteForm
-    initial = {'fecha': timezone.now()}
+    initial = INITIAL_CONSULTA_FORM_DATA
     success_url = reverse_lazy('consulta:listar_paciente')
     menu = 'paciente'
 
