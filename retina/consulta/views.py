@@ -102,7 +102,7 @@ class ListarPacienteView(MenuContextDataMixin, ListView):
 
         for criterio in criterios:
             filtro = (
-                filtro | 
+                filtro |
                 Q(nombres__icontains=criterio) |
                 Q(primer_apellido__icontains=criterio) |
                 Q(segundo_apellido__icontains=criterio)
@@ -121,7 +121,8 @@ class ListarConsultaPorPacienteView(MenuContextDataMixin, ListView):
         return self.paciente.consulta_set.all()
 
     def get_context_data(self, **kwargs):
-        context = super(ListarConsultaPorPacienteView, self).get_context_data(**kwargs)
+        context = super(
+            ListarConsultaPorPacienteView, self).get_context_data(**kwargs)
         context.update(
             {
                 'paciente': self.paciente
@@ -140,22 +141,13 @@ class ModificarConsultaMixin(object):
         })
 
 
-# Requiere refactorización para los campos excepto fecha
-
-INITIAL_CONSULTA_FORM_DATA = {
-        'fecha': timezone.now(),
-        'especialidad': Especialidad.objects.get(nombre='Retina'),
-        'conducta': Conducta.objects.get(nombre='Tratamiento'),
-        'mnt': [MNT.objects.get(abreviatura='ONN')],
-        'unidad': UnidadAsistencial.objects.all().first(),
-    }
-
-class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, CreateView):
+class AdicionarConsultaView(
+        MenuContextDataMixin, ModificarConsultaMixin, CreateView):
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaForm
-    initial = INITIAL_CONSULTA_FORM_DATA
-    
+    initial = {'fecha': timezone.now()}
+
     menu = 'consulta'
 
     def get_context_data(self, **kwargs):
@@ -168,13 +160,12 @@ class AdicionarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, Create
         return context
 
 
-
 class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
 
     model = Consulta
     template_name = 'consulta/consulta_adicionar.html'
     form_class = ConsultaPacienteForm
-    initial = INITIAL_CONSULTA_FORM_DATA
+    initial = {'fecha': timezone.now()}
     success_url = reverse_lazy('consulta:listar_paciente')
     menu = 'paciente'
 
@@ -186,7 +177,8 @@ class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(AdicionarConsultaPacienteView, self).get_context_data(**kwargs)
+        context = super(
+            AdicionarConsultaPacienteView, self).get_context_data(**kwargs)
         paciente = get_object_or_404(Paciente, pk=self.kwargs['paciente'])
         context.update(
             {
@@ -197,8 +189,8 @@ class AdicionarConsultaPacienteView(MenuContextDataMixin, CreateView):
         return context
 
 
-
-class EditarConsultaView(MenuContextDataMixin, ModificarConsultaMixin, UpdateView):
+class EditarConsultaView(
+        MenuContextDataMixin, ModificarConsultaMixin, UpdateView):
 
     model = Consulta
     template_name = 'consulta/consulta_editar.html'
@@ -212,9 +204,12 @@ class EditarConsulta2View(MenuContextDataMixin, UpdateView):
     template_name = 'consulta/consulta_editar.html'
     form_class = ConsultaForm
     menu = 'consulta'
-    
+
     def get_success_url(self):
-        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk}) 
+        return reverse(
+            'consulta:listar_consulta_por_paciente',
+            kwargs={'pk': self.object.paciente.pk}
+        )
 
 
 class ConsultaPorFechaView(MenuContextDataMixin, DayArchiveView):
@@ -232,7 +227,7 @@ class ConsultaPorFechaView(MenuContextDataMixin, DayArchiveView):
             {
                 'campos':
                 (
-                    'tipo',                        
+                    'tipo',
                     'no. HC',
                     'nombre y apellidos',
                     'diagnóstico',
@@ -248,9 +243,10 @@ class ConsultaPorFechaView(MenuContextDataMixin, DayArchiveView):
 
 
 class EliminarConsultaContextDataMixin(object):
-    
+
     def get_context_data(self, **kwargs):
-        context = super(EliminarConsultaContextDataMixin, self).get_context_data(**kwargs)
+        context = super(
+            EliminarConsultaContextDataMixin, self).get_context_data(**kwargs)
         context.update(
             {
                 'url_cancelar': self.success_url
@@ -259,7 +255,8 @@ class EliminarConsultaContextDataMixin(object):
         return context
 
 
-class EliminarConsultaView(MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
+class EliminarConsultaView(
+        MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
 
     model = Consulta
     menu = "consulta"
@@ -277,18 +274,23 @@ class EliminarConsultaView(MenuContextDataMixin, EliminarConsultaContextDataMixi
         return object
 
 
-class EliminarConsulta2View(MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
+class EliminarConsulta2View(
+        MenuContextDataMixin, EliminarConsultaContextDataMixin, DeleteView):
 
     model = Consulta
     menu = "consulta"
 
     def get_success_url(self):
-        return reverse('consulta:listar_consulta_por_paciente', kwargs={'pk': self.object.paciente.pk})
+        return reverse(
+            'consulta:listar_consulta_por_paciente',
+            kwargs={'pk': self.object.paciente.pk}
+        )
 
 
 def registro_pacientes(request, year, month, day):
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename = Hoja de cargo del %s/%s/%s' % (day, month, year)
+    response['Content-Disposition'] = 'attachment; filename = Hoja de cargo'\
+        'del %s/%s/%s' % (day, month, year)
     buffer = BytesIO()
     hoja_cargo = HojaCargo(year, month, day, file=buffer)
     hoja_cargo.write()
