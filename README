@@ -1,1 +1,17 @@
-Aplicación para gestionar información de consultas de retina.
+Aplicación didáctica en django.
+
+Instalación de lenguaje, depencias y herramientas
+- Instalación de python (https://www.python.org/downloads/release/python-2716/)
+- Configuración de las variables de entorno para python (http://geekuu.com/configurar-variables-de-entorno-windows-para-python/)
+- Instalación de django (http://geekuu.com/instalacion-de-python-y-django-en-windows-7/)
+
+-Descarga del proyecto
+  https://github.com/ydiazn/consulta/archive/master.zip
+  
+- Inicialización del proyecto
+  En la carpeta consulta teclea los siguientes comandos en una terminal
+  python manage.py migrate   (Esto crea la BD con las tablas)
+  python manage.py createsuperuser   (Crear un usuario administrador)
+  
+- Ejecutar el proyecto
+  python manage.py runserver
